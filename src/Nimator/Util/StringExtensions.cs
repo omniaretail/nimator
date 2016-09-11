@@ -11,7 +11,7 @@ namespace Nimator.Util
     {
         public static string Truncate(this string value, int maxLength)
         {
-            if (maxLength < 0) throw new ArgumentOutOfRangeException("maxLength");
+            if (maxLength < 0) throw new ArgumentOutOfRangeException(nameof(maxLength));
             if (string.IsNullOrEmpty(value)) return value;
             return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }

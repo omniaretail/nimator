@@ -13,7 +13,7 @@ namespace Nimator.Notifiers
 
         public ConsoleNotifier(ConsoleSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             this.settings = settings;
         }
 

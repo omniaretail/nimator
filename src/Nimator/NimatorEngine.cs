@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nimator;
 
 namespace Nimator
 {
@@ -20,7 +19,7 @@ namespace Nimator
 
         public NimatorEngine(IEnumerable<ILayer> layers)
         {
-            if (layers == null) throw new ArgumentNullException("layers");
+            if (layers == null) throw new ArgumentNullException(nameof(layers));
             this.layers = layers.ToList();
         }
 
@@ -32,11 +31,7 @@ namespace Nimator
             }
             catch (Exception ex)
             {
-                var fullText = string.Format(
-                    "Nimator (or one of its layers) itself failed. Exception '{0}' with message: {1}",
-                    ex.GetType().Name,
-                    ex.Message
-                );
+                var fullText = $"Nimator (or one of its layers) itself failed. Exception '{ex.GetType().Name}' with message: {ex.Message}";
 
                 return new CriticalNimatorResult("Nimator (or one of its layers) itself failed.", fullText);
             }

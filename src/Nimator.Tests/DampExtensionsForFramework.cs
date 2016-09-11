@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
-using Nimator;
 
 namespace Nimator
 {
@@ -20,7 +19,7 @@ namespace Nimator
 
         public static Task<ICheckResult> AsTaskResult(this CheckResult result)
         {
-            if (result == null) throw new ArgumentNullException("result");
+            if (result == null) throw new ArgumentNullException(nameof(result));
             return Task.FromResult<ICheckResult>(result);
         }
     }

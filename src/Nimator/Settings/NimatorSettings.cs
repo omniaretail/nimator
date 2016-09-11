@@ -9,7 +9,7 @@ namespace Nimator.Settings
 {
     public class NimatorSettings
     {
-        private static JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
             Formatting = Formatting.Indented,

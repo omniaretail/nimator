@@ -16,7 +16,7 @@ namespace Nimator
             this.LayerResults = new List<LayerResult>();
         }
 
-        private NotificationLevel? overriddenNotificationlevel = null;
+        private NotificationLevel? overriddenNotificationlevel;
 
         public NotificationLevel Level
         {
@@ -46,18 +46,14 @@ namespace Nimator
                         return "WARNINGS: One or more individual checks had warnings.";
                     case NotificationLevel.Error:
                     case NotificationLevel.Critical:
-                        return string.Format(
-                            "Failure in [{0}], checks [{1}].",
-                            string.Join(", ", GetFailingLayerNames()),
-                            string.Join(", ", GetFailingCheckNames())
-                        );
+                        return $"Failure in [{string.Join(", ", GetFailingLayerNames())}], checks [{string.Join(", ", GetFailingCheckNames())}].";
                     default:
                         return "Result with unknown severity";
                 }
             }
         }
 
-        public IList<LayerResult> LayerResults { get; private set; }
+        public IList<LayerResult> LayerResults { get; }
 
         public string[] GetFailingLayerNames()
         {
@@ -100,7 +96,7 @@ namespace Nimator
 
             foreach (var layerResult in LayerResults)
             {
-                sb.AppendFormat(" - {0}\n", layerResult.ToString());
+                sb.AppendFormat(" - {0}\n", layerResult);
             }
 
             return sb.ToString();

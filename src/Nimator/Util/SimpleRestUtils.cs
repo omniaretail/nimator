@@ -25,11 +25,7 @@ namespace Nimator.Util
                 }
                 catch (WebException ex)
                 {
-                    throw new NotificationCommunicationException(string.Format(
-                        "Notification failed with '{0}' for Url {1}",
-                        ex.GetHttpStatus(),
-                        url
-                    ), ex);
+                    throw new NotificationCommunicationException($"Notification failed with '{ex.GetHttpStatus()}' for Url {url}", ex);
                 }
             }
         }

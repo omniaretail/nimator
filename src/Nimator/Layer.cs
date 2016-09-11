@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nimator;
 
 namespace Nimator
 {
@@ -15,7 +14,7 @@ namespace Nimator
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("Name is required so that a layer is recognizable.", "name");
+                throw new ArgumentException("Name is required so that a layer is recognizable.", nameof(name));
             }
 
             this.Name = name;

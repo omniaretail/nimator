@@ -8,7 +8,7 @@ namespace Nimator.Settings
 {
     public abstract class NotifierSettings
     {
-        public NotifierSettings()
+        protected NotifierSettings()
         {
             this.Threshold = NotificationLevel.Error;
         }

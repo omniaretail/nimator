@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using Nimator;
 
 namespace Nimator
 {
@@ -28,7 +27,7 @@ namespace Nimator
         {
             var layer1 = new Mock<ILayer>();
             layer1.Setup(l => l.Run()).Returns<LayerResult>(null);
-            var nimator = new NimatorEngine(new ILayer[] { layer1.Object });
+            var nimator = new NimatorEngine(new[] {layer1.Object});
             var result = nimator.Run();
 
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
@@ -45,7 +44,7 @@ namespace Nimator
         {
             var layer1 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
             var layer2 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
-            var nimator = new NimatorEngine(new ILayer[] { layer1.Object, layer2.Object });
+            var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
             var result = nimator.Run();
             layer1.Verify(l => l.Run(), Times.Once);
             layer2.Verify(l => l.Run(), Times.Once);
@@ -62,7 +61,7 @@ namespace Nimator
             var layer2 = new Mock<ILayer>();
             layer2.Setup(l => l.Run()).Returns(layerResult2);
 
-            var nimator = new NimatorEngine(new ILayer[] { layer1.Object, layer2.Object });
+            var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
             var result = nimator.Run();
 
             Assert.That(result.LayerResults[0], Is.EqualTo(layerResult1));
@@ -81,7 +80,7 @@ namespace Nimator
 
             var layer1 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
             var layer2 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
-            var nimator = new NimatorEngine(new ILayer[] { layer1.Object, layer2.Object });
+            var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
 
             var result = nimator.Run();
 
@@ -107,7 +106,7 @@ namespace Nimator
         {
             var layer1 = new Mock<ILayer>().WithResult(thresholdLevel);
             var layer2 = new Mock<ILayer>();
-            var nimator = new NimatorEngine(new ILayer[] { layer1.Object, layer2.Object });
+            var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
 
             var result = nimator.Run();
 

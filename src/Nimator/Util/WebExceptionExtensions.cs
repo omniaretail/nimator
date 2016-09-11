@@ -9,13 +9,13 @@ namespace Nimator.Util
 {
     internal static class WebExceptionExtensions
     {
-        public static string GetHttpStatus(this WebException ex)
+        public static string GetHttpStatus(this WebException exception)
         {
-            if (ex == null) throw new ArgumentNullException("ex");
+            if (exception == null) throw new ArgumentNullException(nameof(exception));
 
-            if (ex.Status == WebExceptionStatus.ProtocolError)
+            if (exception.Status == WebExceptionStatus.ProtocolError)
             {
-                var response = ex.Response as HttpWebResponse;
+                var response = exception.Response as HttpWebResponse;
                 if (response != null)
                 {
                     return (int)response.StatusCode + " " + response.StatusCode.ToString();

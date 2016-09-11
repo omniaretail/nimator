@@ -12,16 +12,16 @@ namespace Nimator
         {
             if (string.IsNullOrWhiteSpace(layerName))
             {
-                throw new ArgumentException("Providing a LayerName is required for a LayerResult to be meaningful.", "layerName");
+                throw new ArgumentException("Providing a LayerName is required for a LayerResult to be meaningful.", nameof(layerName));
             }
 
             this.LayerName = layerName;
             
-            this.CheckResults = checkResults == null ? new ICheckResult[0] : checkResults.ToArray();
+            this.CheckResults = checkResults?.ToArray() ?? new ICheckResult[0];
 
             if (this.CheckResults.Any(r => r == null))
             {
-                throw new ArgumentException("One or more check result objects were NULL.", "checkResults");
+                throw new ArgumentException("One or more check result objects were NULL.", nameof(checkResults));
             }
 
             this.Level = CheckResults.Any() 
@@ -29,11 +29,11 @@ namespace Nimator
                 : NotificationLevel.Warning;
         }
 
-        public NotificationLevel Level { get; private set; }
+        public NotificationLevel Level { get; }
 
-        public string LayerName { get; private set; }
+        public string LayerName { get; }
 
-        public IEnumerable<ICheckResult> CheckResults { get; private set; }
+        public IEnumerable<ICheckResult> CheckResults { get; }
 
         public override string ToString()
         {
@@ -48,13 +48,7 @@ namespace Nimator
                 addendum = "\n - - " + string.Join("\n - - ", checkErrors);
             }
 
-            return string.Format(
-                "{0}: after running {1} check(s) in {2}{3}",
-                Level.ToString(),
-                CheckResults.Count(),
-                LayerName,
-                addendum
-            );
+            return $"{Level}: after running {CheckResults.Count()} check(s) in {LayerName}{addendum}";
         }
     }
 }

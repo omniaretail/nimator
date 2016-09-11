@@ -12,7 +12,7 @@ namespace Nimator
 
         public CriticalNimatorResult(string message, string fullText)
         {
-            if (string.IsNullOrWhiteSpace(message)) throw new ArgumentException("Provided message was null or whitespace, but must be sensible or consumers will not understand what is going on.", "message");
+            if (string.IsNullOrWhiteSpace(message)) throw new ArgumentException("Provided message was null or whitespace, but must be sensible or consumers will not understand what is going on.", nameof(message));
 
             // We explicitly do not use the Ambient DateTime Provider here, because
             // in edge cases that might *be* the cause for this critical result.
@@ -25,15 +25,15 @@ namespace Nimator
             this.fullText = string.IsNullOrWhiteSpace(fullText) ? message : fullText;
         }
 
-        public DateTime Started { get; private set; }
+        public DateTime Started { get; }
 
-        public DateTime Finished { get; private set; }
+        public DateTime Finished { get; }
 
-        public NotificationLevel Level { get; private set; }
+        public NotificationLevel Level { get; }
 
-        public IList<LayerResult> LayerResults { get; private set; }
+        public IList<LayerResult> LayerResults { get; }
 
-        public string Message { get; private set; }
+        public string Message { get; }
 
         public string GetFirstFailedLayerName()
         {

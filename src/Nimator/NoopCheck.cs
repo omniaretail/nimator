@@ -12,14 +12,11 @@ namespace Nimator
 
         public NoopCheck(NoopCheckSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             this.settings = settings;
         }
 
-        public string ShortName
-        {
-            get { return "Always" + settings.LevelToSimulate.ToString(); }
-        }
+        public string ShortName => "Always" + settings.LevelToSimulate;
 
         public async Task<ICheckResult> RunAsync()
         {

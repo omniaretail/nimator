@@ -4,8 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Nimator;
 using Nimator.Settings;
 using Nimator.Util;
 
@@ -14,11 +12,11 @@ namespace Nimator.Notifiers
     internal class SlackNotifier : INotifier
     {
         private readonly SlackSettings settings;
-        private DateTime dontAlertBefore = new DateTime();
+        private DateTime dontAlertBefore;
 
         public SlackNotifier(SlackSettings settings)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             if (string.IsNullOrWhiteSpace(settings.Url)) throw new ArgumentException("settings.Url was not set");
 
             this.settings = settings;

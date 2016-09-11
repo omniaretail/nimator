@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using log4net;
 using System.Threading.Tasks;
-using Nimator;
 using Nimator.Settings;
 
 namespace Nimator
@@ -63,7 +62,7 @@ namespace Nimator
         {
             var result = nimator.Run();
 
-            ConcurrentBag<Exception> exceptions = new ConcurrentBag<Exception>();
+            var exceptions = new ConcurrentBag<Exception>();
 
             Parallel.ForEach(notifiers, notifier =>
             {
