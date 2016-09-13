@@ -18,5 +18,10 @@ namespace Nimator.Settings
         {
             return new ConsoleNotifier(this);
         }
+
+        public static NotifierSettings GetExample()
+        {
+            return new ConsoleSettings();
+        }
     }
 }

@@ -17,5 +17,15 @@ namespace Nimator.Settings
         {
             return new SlackNotifier(this);
         }
+
+        public static NotifierSettings GetExample()
+        {
+            return new SlackSettings
+            {
+                Url = "https://hooks.slack.com/services/your/integrationUrl/here",
+                DebounceTimeInSecs = 3600,
+                Threshold = NotificationLevel.Error,
+            };
+        }
     }
 }

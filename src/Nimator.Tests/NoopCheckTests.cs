@@ -10,6 +10,13 @@ namespace Nimator
     [TestFixture]
     public class NoopCheckTests
     {
+        [Test]
+        public void Constructor_WhenPassedNullArgument_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => new NoopCheck(null));
+            Assert.That(exception.ParamName, Is.EqualTo("settings"));
+        }
+
         [TestCase(NotificationLevel.Okay)]
         [TestCase(NotificationLevel.Warning)]
         [TestCase(NotificationLevel.Error)]
@@ -31,6 +38,7 @@ namespace Nimator
             Assert.That(result.Level, Is.EqualTo(level));
         }
 
+        [Test]
         public void InstanceWithException_WhenRun_ThrowsException()
         {
             var sut = new NoopCheck(new NoopCheckSettings { LevelToSimulate = NotificationLevel.Critical });

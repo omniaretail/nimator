@@ -77,7 +77,7 @@ namespace Nimator.Notifiers
         }
     }
 
-    public class Attachment
+    internal class Attachment
     {
         public string text { get; set; }
 

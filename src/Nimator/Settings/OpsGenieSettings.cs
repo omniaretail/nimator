@@ -19,5 +19,16 @@ namespace Nimator.Settings
         {
             return new OpsGenieNotifier(this);
         }
+
+        public static NotifierSettings GetExample()
+        {
+            return new OpsGenieSettings
+            {
+                ApiKey = "your-api-key-here",
+                TeamName = "TeamNameForAlerts",
+                HeartbeatName = "HeartbeatName",
+                Threshold = NotificationLevel.Error,
+            };
+        }
     }
 }

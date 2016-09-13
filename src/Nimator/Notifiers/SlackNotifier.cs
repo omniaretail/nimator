@@ -17,7 +17,7 @@ namespace Nimator.Notifiers
         public SlackNotifier(SlackSettings settings)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
-            if (string.IsNullOrWhiteSpace(settings.Url)) throw new ArgumentException("settings.Url was not set");
+            if (string.IsNullOrWhiteSpace(settings.Url)) throw new ArgumentException("settings.Url was not set", nameof(settings));
 
             this.settings = settings;
         }

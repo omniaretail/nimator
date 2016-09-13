@@ -18,6 +18,7 @@ namespace Nimator.Settings
 
         internal NimatorSettings()
         {
+            this.Layers = new LayerSettings[0];
             this.Notifiers = new NotifierSettings[] { new ConsoleSettings() };
         }
 
@@ -41,9 +42,9 @@ namespace Nimator.Settings
             {
                 Notifiers = new NotifierSettings[] 
                 { 
-                    new ConsoleSettings(),
-                    new OpsGenieSettings(),
-                    new SlackSettings(),
+                    ConsoleSettings.GetExample(),
+                    OpsGenieSettings.GetExample(),
+                    SlackSettings.GetExample(),
                 },
                 Layers = new LayerSettings[]
                 {

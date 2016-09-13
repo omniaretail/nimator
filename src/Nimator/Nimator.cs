@@ -86,10 +86,5 @@ namespace Nimator
         {
             return new Nimator(NimatorSettings.FromJson(json));
         }
-
-        public static NimatorSettings GetSettingsExample()
-        {
-            return NimatorSettings.GetExample();
-        }
     }
 }

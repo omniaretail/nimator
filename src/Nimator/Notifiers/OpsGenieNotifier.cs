@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Nimator.Settings;
@@ -20,9 +19,9 @@ namespace Nimator.Notifiers
         public OpsGenieNotifier(OpsGenieSettings settings)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
-            if (string.IsNullOrWhiteSpace(settings.ApiKey)) throw new ArgumentException("settings.ApiKey was not set");
-            if (string.IsNullOrWhiteSpace(settings.HeartbeatName)) throw new ArgumentException("settings.HeartbeatName was not set");
-            if (string.IsNullOrWhiteSpace(settings.TeamName)) throw new ArgumentException("settings.TeamName was not set");
+            if (string.IsNullOrWhiteSpace(settings.ApiKey)) throw new ArgumentException("settings.ApiKey was not set", nameof(settings));
+            if (string.IsNullOrWhiteSpace(settings.HeartbeatName)) throw new ArgumentException("settings.HeartbeatName was not set", nameof(settings));
+            if (string.IsNullOrWhiteSpace(settings.TeamName)) throw new ArgumentException("settings.TeamName was not set", nameof(settings));
 
             this.settings = settings;
         }

@@ -63,19 +63,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmbientTimeProviderTests.cs" />
     <Compile Include="CriticalNimatorResultTests.cs" />
+    <Compile Include="NimatorTests.cs" />
+    <Compile Include="NoopCheckSettingsTests.cs" />
     <Compile Include="NoopCheckTests.cs" />
     <Compile Include="CheckResultTests.cs" />
-    <Compile Include="DampExtensionsForFramework.cs" />
+    <Compile Include="DampTestsExtensions.cs" />
     <Compile Include="LayerResultTests.cs" />
     <Compile Include="NimatorResultTests.cs" />
     <Compile Include="LayerTests.cs" />
     <Compile Include="NimatorEngineTests.cs" />
+    <Compile Include="NotificationCommunicationExceptionTests.cs" />
+    <Compile Include="NotificationExceptionTests.cs" />
+    <Compile Include="Notifiers\OpsGenieNotifierTests.cs" />
+    <Compile Include="Notifiers\SlackNotifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ConsoleSettingsTests.cs" />
     <Compile Include="Settings\LayerSettingsTests.cs" />
     <Compile Include="Settings\MonitoringSettingsTests.cs" />
+    <Compile Include="Settings\NimatorSettingsTests.cs" />
     <Compile Include="Settings\NotifierSettingsTests.cs" />
+    <Compile Include="Settings\SlackSettingsTests.cs" />
+    <Compile Include="Settings\OpsGenieSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

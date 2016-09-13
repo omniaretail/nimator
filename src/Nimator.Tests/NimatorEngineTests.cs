@@ -23,6 +23,13 @@ namespace Nimator
         }
 
         [Test]
+        public void Constructor_WhenPassedNull_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => new NimatorEngine(null));
+            Assert.That(exception.ParamName, Is.EqualTo("layers"));
+        }
+
+        [Test]
         public void CheckLayers_WhenLayerReturnsNullResult_ReturnsCriticalResult()
         {
             var layer1 = new Mock<ILayer>();
@@ -128,6 +135,22 @@ namespace Nimator
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
             Assert.That(result.Started, Is.Not.EqualTo(default(DateTime)));
             Assert.That(result.Finished, Is.Not.EqualTo(default(DateTime)));
+        }
+
+        [Test]
+        public void AddLayer_WhenPassedIndividualParts_CreatesNewLayer()
+        {
+            var nimator = new NimatorEngine();
+
+            var result1 = new CheckResult("check A", NotificationLevel.Warning);
+            var check1 = new Mock<ICheck>();
+            check1.Setup(c => c.RunAsync()).Returns(result1.AsTaskResult());
+
+            nimator.AddLayer("dummy name", new []{ check1.Object });
+
+            var result = nimator.Run();
+
+            Assert.That(result.Level, Is.EqualTo(NotificationLevel.Warning));
         }
     }
 }

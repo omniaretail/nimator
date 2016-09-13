@@ -7,7 +7,7 @@ using Moq;
 
 namespace Nimator
 {
-    public static class DampExtensionsForFramework
+    public static class DampTestsExtensions
     {
         public static Mock<ILayer> WithResult(this Mock<ILayer> layer, NotificationLevel level)
         {
