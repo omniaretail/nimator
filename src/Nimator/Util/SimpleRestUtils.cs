@@ -12,7 +12,18 @@ namespace Nimator.Util
     // implementation. But for now, let's isolate all Api Calls here.
     internal static class SimpleRestUtils
     {
-        public static void PostToRestApi(string url, object message)
+        public static Action<string, object> PostToRestApi { get; set; } = PostToRestApiInternal;
+
+        // Okay, this method is real dirty, but pending a more robust REST
+        // implementation it might be worth to have some bastard injection
+        // to be able to set a mock instance in unit tests (utilizing the
+        // equally dirty InternalsVisibleTo attribute).
+        internal static void SetPostToRestApiAction(Action<string, object> action)
+        {
+            PostToRestApi = action;
+        }
+        
+        private static void PostToRestApiInternal(string url, object message)
         {
             using (var client = new WebClient())
             {

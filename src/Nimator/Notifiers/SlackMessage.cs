@@ -17,9 +17,9 @@ namespace Nimator.Notifiers
 
             text = "```" + result.RenderPlainText() + "```";
 
-            attachments = new[] 
+            SlackMessageAttachments = new[] 
             {
-                new Attachment
+                new SlackMessageAttachment
                 {
                     text = GetEmojiForLevel(result.Level) + " " + result.Message,
                     color = GetHexForLevel(result.Level)
@@ -29,9 +29,9 @@ namespace Nimator.Notifiers
 
         public void AddAttachment(string addendum)
         {
-            attachments = attachments.Union(new[] 
+            SlackMessageAttachments = SlackMessageAttachments.Union(new[] 
             {
-                new Attachment
+                new SlackMessageAttachment
                 {
                     text = addendum,
                     color = "#00A2E8",
@@ -41,7 +41,7 @@ namespace Nimator.Notifiers
 
         public string text { get; set; }
 
-        public Attachment[] attachments { get; set; }
+        public SlackMessageAttachment[] SlackMessageAttachments { get; set; }
 
         private static string GetEmojiForLevel(NotificationLevel level)
         {
@@ -77,7 +77,7 @@ namespace Nimator.Notifiers
         }
     }
 
-    internal class Attachment
+    internal class SlackMessageAttachment
     {
         public string text { get; set; }
 

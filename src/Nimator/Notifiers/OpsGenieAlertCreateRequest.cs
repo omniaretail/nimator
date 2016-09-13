@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Nimator.Notifiers
 {
-    internal class CreateAlertRequest : OpsGenieRequest
+    internal class OpsGenieCreateAlertRequest : OpsGenieRequest
     {
-        public CreateAlertRequest(string apiKey, string message)
+        public OpsGenieCreateAlertRequest(string apiKey, string message)
             : base(apiKey)
         {
             this.message = message;

@@ -76,6 +76,8 @@
     <Compile Include="NimatorEngineTests.cs" />
     <Compile Include="NotificationCommunicationExceptionTests.cs" />
     <Compile Include="NotificationExceptionTests.cs" />
+    <Compile Include="Notifiers\ConsoleNotifierTests.cs" />
+    <Compile Include="Notifiers\NotifierTests.cs" />
     <Compile Include="Notifiers\OpsGenieNotifierTests.cs" />
     <Compile Include="Notifiers\SlackNotifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

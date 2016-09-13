@@ -47,7 +47,7 @@ namespace Nimator.Notifiers
             var failingLayerName = (result.GetFirstFailedLayerName() ?? "UnknownLayer").Truncate(MaxOpsgenieTagLength);
             var message = result.Message.Truncate(MaxOpsgenieMessageLength);
 
-            var request = new CreateAlertRequest(this.settings.ApiKey, message)
+            var request = new OpsGenieCreateAlertRequest(this.settings.ApiKey, message)
             {
                 alias = "nimator-failure",
                 description = result.RenderPlainText(),
