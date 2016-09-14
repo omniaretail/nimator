@@ -194,7 +194,7 @@ namespace Nimator
 
             // Case insensitivity by lowering the result before the assertions.
             var result = sut.RenderPlainText().ToLowerInvariant();
-            var firstLine = result.Substring(0, result.IndexOf("\n"));
+            var firstLine = result.Substring(0, result.IndexOf("\n", StringComparison.Ordinal));
 
             Assert.That(firstLine, Does.Contain("2016-08-22"));
             Assert.That(firstLine, Does.Contain("13:45:00"));

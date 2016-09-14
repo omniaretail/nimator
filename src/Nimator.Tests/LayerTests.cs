@@ -30,7 +30,7 @@ namespace Nimator
             var check2 = new Mock<ICheck>();
             check2.Setup(c => c.RunAsync()).Returns(result2.AsTaskResult());
 
-            var layer = new Layer("Layer 1", new ICheck[] { check1.Object, check2.Object });
+            var layer = new Layer("Layer 1", new [] { check1.Object, check2.Object });
 
             var result = layer.Run();
 
@@ -49,7 +49,7 @@ namespace Nimator
             var check2 = new Mock<ICheck>();
             check2.Setup(c => c.RunAsync()).Returns(result2.AsTaskResult());
 
-            var layer = new Layer("Layer 1", new ICheck[] { check1.Object, check2.Object });
+            var layer = new Layer("Layer 1", new [] { check1.Object, check2.Object });
 
             var result = layer.Run();
 

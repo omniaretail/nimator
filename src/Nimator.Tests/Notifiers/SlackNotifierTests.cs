@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
 using Nimator.Settings;
-using Nimator.Util;
 using NUnit.Framework;
 
 namespace Nimator.Notifiers
@@ -58,8 +57,8 @@ namespace Nimator.Notifiers
             var resultMock = new Mock<INimatorResult>();
             resultMock.Setup(r => r.Level).Returns(fakeSettings.Threshold);
             sut.Notify(resultMock.Object);
-            Assert.That(mostRecentRestUrlCalled, Is.EqualTo(fakeSettings.Url));
-            Assert.That(mostRecentRestPayload, Is.InstanceOf<SlackMessage>());
+            Assert.That(MostRecentRestUrlCalled, Is.EqualTo(fakeSettings.Url));
+            Assert.That(MostRecentRestPayload, Is.InstanceOf<SlackMessage>());
         }
 
         [Test]
@@ -70,7 +69,7 @@ namespace Nimator.Notifiers
             resultMock.Setup(r => r.Level).Returns(fakeSettings.Threshold);
             sut.Notify(resultMock.Object);
             sut.Notify(resultMock.Object); // For sure this is before the debounce has passed
-            Assert.That(numberOfRestCalls, Is.EqualTo(1));
+            Assert.That(NumberOfRestCalls, Is.EqualTo(1));
         }
 
         [Test]
@@ -80,7 +79,7 @@ namespace Nimator.Notifiers
             var resultMock = new Mock<INimatorResult>();
             resultMock.Setup(r => r.Level).Returns(fakeSettings.Threshold);
             sut.Notify(resultMock.Object);
-            var json = JsonConvert.SerializeObject(mostRecentRestPayload);
+            var json = JsonConvert.SerializeObject(MostRecentRestPayload);
             Assert.That(json, Is.Not.Null.And.Not.Empty);
         }
     }

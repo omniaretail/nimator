@@ -13,7 +13,7 @@ namespace Nimator.Settings
         {
             TypeNameHandling = TypeNameHandling.Objects,
             Formatting = Formatting.Indented,
-            Converters = new[] { new Newtonsoft.Json.Converters.StringEnumConverter() },
+            Converters = new JsonConverter[] { new Newtonsoft.Json.Converters.StringEnumConverter() },
         };
 
         internal NimatorSettings()

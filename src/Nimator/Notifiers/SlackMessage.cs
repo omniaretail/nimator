@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Nimator.Notifiers
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SlackMessage
     {
         public SlackMessage(INimatorResult result)
@@ -77,11 +79,12 @@ namespace Nimator.Notifiers
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SlackMessageAttachment
     {
         public string text { get; set; }
 
-        public string[] mrkdwn_in { get { return new[] { "text" }; } }
+        public string[] mrkdwn_in => new[] { "text" };
 
         public string color { get; set; }
     }

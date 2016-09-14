@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Nimator.Notifiers
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class OpsGenieCreateAlertRequest : OpsGenieRequest
     {
         public OpsGenieCreateAlertRequest(string apiKey, string message)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nimator.Settings;
 using Nimator.Util;
 using NUnit.Framework;
 
@@ -12,22 +11,22 @@ namespace Nimator.Notifiers
     [TestFixture]
     public abstract class NotifierTests
     {
-        protected int numberOfRestCalls;
-        protected string mostRecentRestUrlCalled;
-        protected object mostRecentRestPayload;
+        protected int NumberOfRestCalls { get; set; }
+        protected string MostRecentRestUrlCalled { get; set; }
+        protected object MostRecentRestPayload { get; set; }
 
         [SetUp]
         public virtual void SetUp()
         {
-            numberOfRestCalls = 0;
-            mostRecentRestUrlCalled = null;
-            mostRecentRestPayload = null;
+            NumberOfRestCalls = 0;
+            MostRecentRestUrlCalled = null;
+            MostRecentRestPayload = null;
 
             SimpleRestUtils.SetPostToRestApiAction((url, payload) =>
             {
-                numberOfRestCalls++;
-                mostRecentRestUrlCalled = url;
-                mostRecentRestPayload = payload;
+                NumberOfRestCalls++;
+                MostRecentRestUrlCalled = url;
+                MostRecentRestPayload = payload;
             });
         }
     }

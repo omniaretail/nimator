@@ -73,7 +73,7 @@ namespace Nimator.Notifiers
             resultMock.Setup(r => r.Level).Returns((NotificationLevel)Int32.MinValue);
             var sut = fakeSettings.ToNotifier();
             sut.Notify(resultMock.Object);
-            Assert.That(mostRecentRestPayload, Is.InstanceOf<OpsGenieHeartbeatRequest>());
+            Assert.That(MostRecentRestPayload, Is.InstanceOf<OpsGenieHeartbeatRequest>());
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Nimator.Notifiers
             resultMock.Setup(r => r.Level).Returns((NotificationLevel)Int32.MinValue);
             var sut = fakeSettings.ToNotifier();
             sut.Notify(resultMock.Object);
-            var json = JsonConvert.SerializeObject(mostRecentRestPayload);
+            var json = JsonConvert.SerializeObject(MostRecentRestPayload);
             Assert.That(json, Is.Not.Null.And.Not.Empty);
         }
 
@@ -99,7 +99,7 @@ namespace Nimator.Notifiers
             var resultMock = new Mock<INimatorResult>();
             resultMock.Setup(r => r.Level).Returns(fakeSettings.Threshold);
             sut.Notify(resultMock.Object);
-            Assert.That(mostRecentRestPayload, Is.InstanceOf<OpsGenieCreateAlertRequest>());
+            Assert.That(MostRecentRestPayload, Is.InstanceOf<OpsGenieCreateAlertRequest>());
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Nimator.Notifiers
             var resultMock = new Mock<INimatorResult>();
             resultMock.Setup(r => r.Level).Returns(fakeSettings.Threshold);
             sut.Notify(resultMock.Object);
-            var json = JsonConvert.SerializeObject(mostRecentRestPayload);
+            var json = JsonConvert.SerializeObject(MostRecentRestPayload);
             Assert.That(json, Is.Not.Null.And.Not.Empty);
         }
 
