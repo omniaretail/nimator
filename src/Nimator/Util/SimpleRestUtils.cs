@@ -29,7 +29,7 @@ namespace Nimator.Util
             {
                 try
                 {
-                    // Don't use Squid proxy on production by bypassing default proxy:
+                    // Don't use a proxy. TODO: Make this configurable?
                     client.Proxy = new WebProxy();
 
                     client.UploadString(url, JsonConvert.SerializeObject(message));

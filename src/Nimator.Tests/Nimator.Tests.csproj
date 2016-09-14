@@ -88,6 +88,7 @@
     <Compile Include="Settings\NotifierSettingsTests.cs" />
     <Compile Include="Settings\SlackSettingsTests.cs" />
     <Compile Include="Settings\OpsGenieSettingsTests.cs" />
+    <Compile Include="Util\WebExceptionExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
