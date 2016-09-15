@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nimator
+﻿namespace Nimator
 {
     public interface ICheckResult
     {
