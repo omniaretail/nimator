@@ -8,21 +8,26 @@ using Nimator.Settings;
 
 namespace Nimator
 {
+    /// <summary>
+    /// Core class to bootstrap monitoring. This class will require or create its own <see cref="INimatorEngine"/>
+    /// to run monitoring cycles on each <see cref="Tick"/>, and distribute the result to <see cref="INotifier"/>s
+    /// that were created based on the settings provided.
+    /// </summary>
     public class Nimator : INimator
     {
         private readonly IEnumerable<INotifier> notifiers;
-        private readonly INimatorEngine nimator;
+        private readonly INimatorEngine engine;
 
         private Nimator(NimatorSettings settings)
         {
             this.notifiers = settings.Notifiers.Select(s => s.ToNotifier()).ToList();
 
-            nimator = new NimatorEngine();
+            engine = new NimatorEngine();
 
             foreach (var layerSettings in settings.Layers)
             {
                 var checks = layerSettings.Checks.Select(c => c.ToCheck()).ToList();
-                nimator.AddLayer(layerSettings.Name, checks);
+                engine.AddLayer(layerSettings.Name, checks);
             }
         }
 
@@ -59,7 +64,7 @@ namespace Nimator
 
         private void Tick()
         {
-            var result = nimator.Run();
+            var result = engine.RunSafe();
 
             var exceptions = new ConcurrentBag<Exception>();
 
@@ -81,6 +86,15 @@ namespace Nimator
             }
         }
         
+        /// <summary>
+        /// Constructs a new <see cref="INimator"/> based on a json string that will be 
+        /// converted to <see cref="NimatorSettings"/>.
+        /// </summary>
+        /// <param name="json">
+        /// Any valid json that can be deserialized into <see cref="NimatorSettings"/>. Note that <see cref="Newtonsoft"/> is
+        /// used to deserialize the settings, utilizing TypeNameHandling to determine the specific assemblies and types to pick.
+        /// </param>
+        /// <returns>A bootstrapped <see cref="INimator"/> ready to run cycles.</returns>
         public static INimator FromSettings(string json)
         {
             return new Nimator(NimatorSettings.FromJson(json));

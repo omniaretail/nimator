@@ -31,7 +31,7 @@ namespace Nimator
             var layer1 = new Mock<ILayer>();
             layer1.Setup(l => l.Run()).Returns<LayerResult>(null);
             var nimator = new NimatorEngine(new[] {layer1.Object});
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
             Assert.That(result.Message.ToLowerInvariant(), Does.Contain("nimator"));
@@ -48,7 +48,7 @@ namespace Nimator
             var layer1 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
             var layer2 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
             var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
             layer1.Verify(l => l.Run(), Times.Once);
             layer2.Verify(l => l.Run(), Times.Once);
         }
@@ -65,7 +65,7 @@ namespace Nimator
             layer2.Setup(l => l.Run()).Returns(layerResult2);
 
             var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             Assert.That(result.LayerResults[0], Is.EqualTo(layerResult1));
             Assert.That(result.LayerResults[1], Is.EqualTo(layerResult2));
@@ -85,7 +85,7 @@ namespace Nimator
             var layer2 = new Mock<ILayer>().WithResult(NotificationLevel.Okay);
             var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
 
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             Assert.That(result.Started, Is.EqualTo(new DateTime(2016, 8, 16, 13, 0, 15)));
             Assert.That(result.Finished, Is.GreaterThan(result.Started));
@@ -97,7 +97,7 @@ namespace Nimator
             AmbientTimeProvider.SetNewTimeProvider(() => { throw new Exception("Something truly terrible happened..."); });
             var nimator = new NimatorEngine(new ILayer[0]);
 
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
             Assert.That(result.RenderPlainText(), Does.Contain("truly terrible"));
@@ -111,7 +111,7 @@ namespace Nimator
             var layer2 = new Mock<ILayer>();
             var nimator = new NimatorEngine(new[] {layer1.Object, layer2.Object});
 
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             layer2.Verify(l => l.Run(), Times.Never);
         }
@@ -126,7 +126,7 @@ namespace Nimator
 
             nimator.AddLayer(layer1.Object);
 
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
             Assert.That(result.Started, Is.Not.EqualTo(default(DateTime)));
@@ -144,7 +144,7 @@ namespace Nimator
 
             nimator.AddLayer("dummy name", new []{ check1.Object });
 
-            var result = nimator.Run();
+            var result = nimator.RunSafe();
 
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Warning));
         }

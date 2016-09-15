@@ -4,24 +4,35 @@ using System.Linq;
 
 namespace Nimator
 {
+    /// <summary>
+    /// Core <see cref="INimatorEngine"/> that will run layers sequentially.
+    /// </summary>
     public class NimatorEngine : INimatorEngine
     {
         private const NotificationLevel StopProcessingAtThreshold = NotificationLevel.Error;
 
         private readonly IList<ILayer> layers;
         
+        /// <summary>
+        /// Constructs default engine without any <see cref="ILayer"/>s.
+        /// </summary>
         public NimatorEngine()
         {
             this.layers = new List<ILayer>();
         }
 
+        /// <summary>
+        /// Constructs engine with specifica <see cref="ILayer"/>s.
+        /// </summary>
+        /// <param name="layers"></param>
         public NimatorEngine(IEnumerable<ILayer> layers)
         {
             if (layers == null) throw new ArgumentNullException(nameof(layers));
             this.layers = layers.ToList();
         }
 
-        public INimatorResult Run()
+        /// <inheritDoc/>
+        public INimatorResult RunSafe()
         {
             try
             {
@@ -61,11 +72,13 @@ namespace Nimator
             return nimatorResult;
         }
 
+        /// <inheritDoc/>
         public void AddLayer(string name, IEnumerable<ICheck> checks)
         {
             this.layers.Add(new Layer(name, checks));
         }
 
+        /// <inheritDoc/>
         public void AddLayer(ILayer layer)
         {
             this.layers.Add(layer);

@@ -1,5 +1,8 @@
 ﻿namespace Nimator
 {
+    /// <summary>
+    /// Predefined "levels", or "severities", for the results of running <see cref="ICheck"/>s.
+    /// </summary>
     public enum NotificationLevel
     {
         /// <summary>
