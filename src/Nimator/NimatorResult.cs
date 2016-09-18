@@ -21,11 +21,21 @@ namespace Nimator
         {
             get
             {
-                return this.overriddenNotificationlevel ?? (NotificationLevel)LayerResults.Max(r => (int)r.Level);
+                if (overriddenNotificationlevel.HasValue)
+                {
+                    return overriddenNotificationlevel.Value;
+                }
+
+                if (!LayerResults.Any())
+                {
+                    return NotificationLevel.Warning;
+                }
+
+                return (NotificationLevel)LayerResults.Max(r => (int)r.Level);
             }
             set
             {
-                this.overriddenNotificationlevel = value;
+                overriddenNotificationlevel = value;
             }
         }
 
@@ -42,7 +52,7 @@ namespace Nimator
                     case NotificationLevel.Okay:
                         return "OKAY: All checks have been executed.";
                     case NotificationLevel.Warning:
-                        return "WARNINGS: One or more individual checks had warnings.";
+                        return "WARNINGS: One or more individual checks/layers had warnings.";
                     case NotificationLevel.Error:
                     case NotificationLevel.Critical:
                         return $"Failure in [{string.Join(", ", GetFailingLayerNames())}], checks [{string.Join(", ", GetFailingCheckNames())}].";

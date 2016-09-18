@@ -7,6 +7,14 @@ namespace Nimator
     public class NimatorResultTests
     {
         [Test]
+        public void Level_WhenNoResultsAvailable_ReturnsWarning()
+        {
+            var sut = new NimatorResult(DateTime.Now);
+            sut.LayerResults.Clear();
+            Assert.That(sut.Level, Is.EqualTo(NotificationLevel.Warning));
+        }
+
+        [Test]
         public void Level_WhenLayersHaveDifferingResults_ChoosesWorstLevel()
         {
             var sut = new NimatorResult(DateTime.Now);
@@ -199,6 +207,15 @@ namespace Nimator
             Assert.That(result, Does.Contain("layer-1"));
             Assert.That(result, Does.Contain("layer-2"));
             Assert.That(result, Does.Contain("layer-3"));
+        }
+
+        [Test]
+        public void RenderPlainText_WhenNoResultsAvailable_ReturnsSaneText()
+        {
+            var sut = new NimatorResult(DateTime.Now);
+            sut.LayerResults.Clear();
+            var result = sut.RenderPlainText();
+            Assert.That(result, Is.Not.Null.And.Not.Empty);
         }
 
         private static LayerResult TestLayerResult(string name, NotificationLevel level)
