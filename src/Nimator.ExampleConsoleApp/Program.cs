@@ -48,7 +48,7 @@ namespace Nimator.ExampleConsoleApp
             using (var reader = new StreamReader(stream))
             {
                 var json = reader.ReadToEnd();
-                return Nimator.FromSettings(json);
+                return Nimator.FromSettings(logger, json);
             }
         }
 

@@ -15,13 +15,20 @@ namespace Nimator
     /// </summary>
     public class Nimator : INimator
     {
-        private readonly IEnumerable<INotifier> notifiers;
+        private readonly IEnumerable<INotifier> notifiers = new INotifier[0];
         private readonly INimatorEngine engine;
 
-        private Nimator(NimatorSettings settings)
+        private Nimator(ILog logger, NimatorSettings settings)
         {
-            this.notifiers = settings.Notifiers.Select(s => s.ToNotifier()).ToList();
-
+            if (settings.Notifiers == null || !settings.Notifiers.Any())
+            {
+                logger.Warn("Zero Notifiers were provided in settings, so results will not be notified to anyone.");
+            }
+            else
+            {
+                this.notifiers = settings.Notifiers.Select(s => s.ToNotifier()).ToList();
+            }
+            
             engine = new NimatorEngine();
 
             foreach (var layerSettings in settings.Layers)
@@ -90,14 +97,17 @@ namespace Nimator
         /// Constructs a new <see cref="INimator"/> based on a json string that will be 
         /// converted to <see cref="NimatorSettings"/>.
         /// </summary>
+        /// <param name="logger">
+        /// Instance that allows Nimator to log errors, warnings, and whatnot.
+        /// </param>
         /// <param name="json">
         /// Any valid json that can be deserialized into <see cref="NimatorSettings"/>. Note that <see cref="Newtonsoft"/> is
         /// used to deserialize the settings, utilizing TypeNameHandling to determine the specific assemblies and types to pick.
         /// </param>
         /// <returns>A bootstrapped <see cref="INimator"/> ready to run cycles.</returns>
-        public static INimator FromSettings(string json)
+        public static INimator FromSettings(ILog logger, string json)
         {
-            return new Nimator(NimatorSettings.FromJson(json));
+            return new Nimator(logger, NimatorSettings.FromJson(json));
         }
     }
 }
