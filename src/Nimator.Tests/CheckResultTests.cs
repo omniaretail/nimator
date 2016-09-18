@@ -18,7 +18,7 @@ namespace Nimator
         public void ToString_WhenCalled_IncludesNameAndLevelAndMessage()
         {
             var sut = new CheckResult("Cas Node Check",  NotificationLevel.Warning, "custom message");
-            var result = sut.ToString();
+            var result = sut.RenderPlainText();
             Assert.That(result, Does.Contain("Cas Node Check"));
             Assert.That(result, Does.Contain("Warning"));
             Assert.That(result, Does.Contain("custom message"));

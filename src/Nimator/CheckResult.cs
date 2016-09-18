@@ -7,6 +7,8 @@ namespace Nimator
     /// </summary>
     public class CheckResult : ICheckResult
     {
+        private readonly string message;
+
         /// <summary>
         /// Constructs new <see cref="CheckResult"/> for specific values.
         /// </summary>
@@ -19,24 +21,19 @@ namespace Nimator
 
             this.CheckName = checkName;
             this.Level = level;
-            this.Message = message;
+            this.message = message;
         }
 
         /// <inheritdoc/>
         public NotificationLevel Level { get; set; }
 
         /// <inheritdoc/>
-        public string Message { get; set; }
-
-        /// <inheritdoc/>
         public string CheckName { get; set; }
 
-        /// <summary>
-        /// Joins <see cref="Level"/>, <see cref="CheckName"/>, and <see cref="Message"/> in a readable fashion.
-        /// </summary>
-        public override string ToString()
+        /// <inheritdoc/>
+        public string RenderPlainText()
         {
-            return $"{Level} in {CheckName}: {Message}";
+            return $"{Level} in {CheckName}: {message}";
         }
     }
 }

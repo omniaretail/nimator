@@ -55,11 +55,11 @@ namespace Nimator
         /// <summary>
         /// Creates human-readable representation of this result.
         /// </summary>
-        public override string ToString()
+        public string RenderPlainText()
         {
             var checkErrors = CheckResults
                 .Where(r => r.Level >= NotificationLevel.Error)
-                .Select(r => r.ToString());
+                .Select(r => r.RenderPlainText());
 
             string addendum = "";
 

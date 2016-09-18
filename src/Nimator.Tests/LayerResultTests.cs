@@ -56,7 +56,7 @@ namespace Nimator
 
             var sut = new LayerResult("layer A", checkresults);
 
-            var result = sut.ToString();
+            var result = sut.RenderPlainText();
 
             Assert.That(result, Does.Contain("layer A"));
             Assert.That(result, Does.Contain("Error"));
@@ -77,7 +77,7 @@ namespace Nimator
 
             var sut = new LayerResult("layer A", checkresults);
 
-            var result = sut.ToString();
+            var result = sut.RenderPlainText();
 
             Assert.That(result.ToLowerInvariant(), Does.Not.Contain("check a"));
             Assert.That(result.ToLowerInvariant(), Does.Not.Contain("check b"));
@@ -97,7 +97,7 @@ namespace Nimator
 
             var sut = new LayerResult("layer A", checkresults);
 
-            var result = sut.ToString();
+            var result = sut.RenderPlainText();
 
             Assert.That(result.ToLowerInvariant(), Does.Contain("abc"));
             Assert.That(result.ToLowerInvariant(), Does.Contain("xyz"));

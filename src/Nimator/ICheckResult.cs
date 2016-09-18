@@ -17,8 +17,9 @@
         NotificationLevel Level { get; set; }
 
         /// <summary>
-        /// The description of how the <see cref="ICheck"/> came to this result.
+        /// Joins <see cref="Level"/>, <see cref="CheckName"/>, and any other details, in 
+        /// a readable fashion.
         /// </summary>
-        string Message { get; set; }
+        string RenderPlainText();
     }
 }

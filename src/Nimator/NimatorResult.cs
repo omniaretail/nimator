@@ -105,7 +105,7 @@ namespace Nimator
 
             foreach (var layerResult in LayerResults)
             {
-                sb.AppendFormat(" - {0}\n", layerResult);
+                sb.AppendFormat(" - {0}\n", layerResult.RenderPlainText());
             }
 
             return sb.ToString();
