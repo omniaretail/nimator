@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nimator", "Nimator\Nimator.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nimator.Tests", "Nimator.Tests\Nimator.Tests.csproj", "{D18E6006-295F-4BEC-A922-748313B939B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nimator.ExampleConsoleApp", "Nimator.ExampleConsoleApp\Nimator.ExampleConsoleApp.csproj", "{FCDFFF7F-C1F3-4A20-9B6E-4C569C8F33BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D18E6006-295F-4BEC-A922-748313B939B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18E6006-295F-4BEC-A922-748313B939B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18E6006-295F-4BEC-A922-748313B939B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCDFFF7F-C1F3-4A20-9B6E-4C569C8F33BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCDFFF7F-C1F3-4A20-9B6E-4C569C8F33BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCDFFF7F-C1F3-4A20-9B6E-4C569C8F33BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCDFFF7F-C1F3-4A20-9B6E-4C569C8F33BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
