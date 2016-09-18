@@ -10,11 +10,20 @@ namespace Nimator.ExampleConsoleApp
 {
     class Program
     {
+        // This would probably be a bit higher (e.g. 60 secs or even more) and in
+        // the App.config for production scenarios:
         private const int CheckIntervalInSecs = 15;
-        private const string EmbeddedResourceConfigFile = "Nimator.ExampleConsoleApp.config.json";
+
+        // For ease of demo this is an embedded resource, but it could also be in a
+        // seperate file or whatever persistence you'd prefer. It might be good not
+        // to persist it in a database system, since your monitoring app should pro-
+        // bably have as few dependencies as possible...
+        private const string ConfigResource = "Nimator.ExampleConsoleApp.config.json";
+
+        // See app.config for logging setup.
         private static readonly ILog logger = LogManager.GetLogger("Nimator");
 
-        static void Main(string[] args)
+        static void Main()
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionLogger;
 
@@ -30,12 +39,12 @@ namespace Nimator.ExampleConsoleApp
                 Console.ReadKey();
             }
 
-            logger.Info("Stopping Nimator.");
+            logger.Info("Shutting down.");
         }
 
         private static INimator CreateNimator()
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(EmbeddedResourceConfigFile))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ConfigResource))
             using (var reader = new StreamReader(stream))
             {
                 var json = reader.ReadToEnd();
