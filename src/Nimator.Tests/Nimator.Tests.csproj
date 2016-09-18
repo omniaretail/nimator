@@ -87,7 +87,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ConsoleSettingsTests.cs" />
     <Compile Include="Settings\LayerSettingsTests.cs" />
-    <Compile Include="Settings\MonitoringSettingsTests.cs" />
     <Compile Include="Settings\NimatorSettingsTests.cs" />
     <Compile Include="Settings\NotifierSettingsTests.cs" />
     <Compile Include="Settings\SlackSettingsTests.cs" />
