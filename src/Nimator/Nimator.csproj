@@ -64,6 +64,7 @@
     <Compile Include="ICheck.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="ICheckResult.cs" />
+    <Compile Include="ILayerResult.cs" />
     <Compile Include="INimator.cs" />
     <Compile Include="INimatorEngine.cs" />
     <Compile Include="INimatorResult.cs" />

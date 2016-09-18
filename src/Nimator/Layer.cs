@@ -22,7 +22,7 @@ namespace Nimator
 
         public string Name { get; set; }
 
-        public LayerResult Run()
+        public ILayerResult Run()
         {
             var tasks = checks.Select(c => c.RunAsync()).ToArray();            
             var checkResults = Task.WhenAll(tasks).Result;

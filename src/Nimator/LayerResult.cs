@@ -4,11 +4,8 @@ using System.Linq;
 
 namespace Nimator
 {
-    /// <summary>
-    /// Represents a combination of <see cref="ICheckResult"/> items from running <see cref="ICheck"/>s 
-    /// in a <see cref="ILayer"/>.
-    /// </summary>
-    public class LayerResult
+    /// <inheritdoc/>
+    public class LayerResult : ILayerResult
     {
         /// <summary>
         /// Initializes a new instance of <see cref="LayerResult"/>.
@@ -36,25 +33,16 @@ namespace Nimator
                 : NotificationLevel.Warning;
         }
 
-        /// <summary>
-        /// The aggregated <see cref="NotificationLevel"/> of the composed <see cref="ICheckResult"/> subresults. This 
-        /// will typically be the worst result of the batch. To get the individual levels, see the <see cref="CheckResults"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public NotificationLevel Level { get; }
 
-        /// <summary>
-        /// Name of the layer that generated this <see cref="LayerResult"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public string LayerName { get; }
 
-        /// <summary>
-        /// Individual <see cref="ICheckResult"/> sub results making up this <see cref="LayerResult"/>.
-        /// </summary>
+        /// <inheritdoc/>
         public IEnumerable<ICheckResult> CheckResults { get; }
 
-        /// <summary>
-        /// Creates human-readable representation of this result.
-        /// </summary>
+        /// <inheritdoc/>
         public string RenderPlainText()
         {
             var checkErrors = CheckResults

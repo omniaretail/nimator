@@ -12,7 +12,7 @@ namespace Nimator
         public NimatorResult(DateTime started)
         {
             this.Started = started;
-            this.LayerResults = new List<LayerResult>();
+            this.LayerResults = new List<ILayerResult>();
         }
 
         private NotificationLevel? overriddenNotificationlevel;
@@ -62,7 +62,7 @@ namespace Nimator
             }
         }
 
-        public IList<LayerResult> LayerResults { get; }
+        public IList<ILayerResult> LayerResults { get; }
 
         public string[] GetFailingLayerNames()
         {

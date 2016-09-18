@@ -218,7 +218,7 @@ namespace Nimator
             Assert.That(result, Is.Not.Null.And.Not.Empty);
         }
 
-        private static LayerResult TestLayerResult(string name, NotificationLevel level)
+        private static ILayerResult TestLayerResult(string name, NotificationLevel level)
         {
             return new LayerResult(name, new[] {
                 new CheckResult("dummy-check", level) 

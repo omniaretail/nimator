@@ -24,9 +24,9 @@ namespace Nimator
         NotificationLevel Level { get; }
 
         /// <summary>
-        /// Individual <see cref="LayerResult"/>s making up this aggregated, final <see cref="INimatorResult"/>.
+        /// Individual <see cref="ILayerResult"/>s making up this aggregated, final <see cref="INimatorResult"/>.
         /// </summary>
-        IList<LayerResult> LayerResults { get; }
+        IList<ILayerResult> LayerResults { get; }
 
         /// <summary>
         /// Human readable explanation of this <see cref="INimatorResult"/>.

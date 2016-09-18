@@ -14,6 +14,6 @@
         /// Runs all components to get to an aggregated result.
         /// </summary>
         /// <returns></returns>
-        LayerResult Run();
+        ILayerResult Run();
     }
 }

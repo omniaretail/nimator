@@ -17,7 +17,7 @@ namespace Nimator
             this.Finished = DateTime.Now;
 
             this.Level = NotificationLevel.Critical;
-            this.LayerResults = new List<LayerResult>();
+            this.LayerResults = new List<ILayerResult>();
             this.Message = message;
             this.fullText = string.IsNullOrWhiteSpace(fullText) ? message : fullText;
         }
@@ -28,7 +28,7 @@ namespace Nimator
 
         public NotificationLevel Level { get; }
 
-        public IList<LayerResult> LayerResults { get; }
+        public IList<ILayerResult> LayerResults { get; }
 
         public string Message { get; }
 
