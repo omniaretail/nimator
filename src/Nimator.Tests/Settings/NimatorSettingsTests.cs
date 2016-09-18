@@ -13,7 +13,7 @@ namespace Nimator.Settings
             var json = "{}";
             var sut = NimatorSettings.FromJson(json);
             Assert.That(sut, Is.Not.Null);
-            Assert.That(sut.Notifiers.Single(), Is.InstanceOf<ConsoleSettings>());
+            CollectionAssert.IsEmpty(sut.Notifiers);
         }
 
         [TestCase(typeof(ConsoleSettings))]

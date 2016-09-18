@@ -17,7 +17,7 @@ namespace Nimator.Settings
         internal NimatorSettings()
         {
             this.Layers = new LayerSettings[0];
-            this.Notifiers = new NotifierSettings[] { new ConsoleSettings() };
+            this.Notifiers = new NotifierSettings[] { };
         }
 
         /// <summary>
