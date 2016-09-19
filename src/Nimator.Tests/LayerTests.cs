@@ -62,8 +62,8 @@ namespace Nimator
             var layer = new Layer("Layer 1", new ICheck[0]);
             var result = layer.Run();
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Warning));
-            Assert.That(result.RenderPlainText().ToLowerInvariant(), Does.Contain("warning"));
-            Assert.That(result.RenderPlainText().ToLowerInvariant(), Does.Contain("0 check"));
+            Assert.That(result.RenderPlainText(NotificationLevel.Error).ToLowerInvariant(), Does.Contain("warning"));
+            Assert.That(result.RenderPlainText(NotificationLevel.Error).ToLowerInvariant(), Does.Contain("0 check"));
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Nimator
             Assert.That(result.Message.ToLowerInvariant(), Does.Contain("nimator"));
             Assert.That(result.Message.ToLowerInvariant(), Does.Contain("failed"));
 
-            var fullText = result.RenderPlainText().ToLowerInvariant();
+            var fullText = result.RenderPlainText(NotificationLevel.Error).ToLowerInvariant();
             Assert.That(fullText, Does.Contain("layer"));
             Assert.That(fullText, Does.Contain("returned no result"));
         }
@@ -100,7 +100,7 @@ namespace Nimator
             var result = nimator.RunSafe();
 
             Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
-            Assert.That(result.RenderPlainText(), Does.Contain("truly terrible"));
+            Assert.That(result.RenderPlainText(NotificationLevel.Error), Does.Contain("truly terrible"));
         }
 
         [TestCase(NotificationLevel.Error)]

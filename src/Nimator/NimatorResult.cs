@@ -90,11 +90,6 @@ namespace Nimator
                 ?? string.Empty;
         }
 
-        public string RenderPlainText()
-        {
-            return RenderPlainText(NotificationLevel.Error);
-        }
-
         public string RenderPlainText(NotificationLevel minLevelForDetails)
         {
             var sb = new StringBuilder();

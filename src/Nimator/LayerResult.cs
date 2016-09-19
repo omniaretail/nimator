@@ -41,13 +41,7 @@ namespace Nimator
 
         /// <inheritdoc/>
         public IEnumerable<ICheckResult> CheckResults { get; }
-
-        /// <inheritdoc/>
-        public string RenderPlainText()
-        {
-            return RenderPlainText(NotificationLevel.Error);
-        }
-
+        
         /// <inheritdoc/>
         public string RenderPlainText(NotificationLevel minLevelForDetails)
         {

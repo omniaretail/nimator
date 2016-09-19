@@ -49,11 +49,6 @@ namespace Nimator
         string[] GetFailingCheckNames();
 
         /// <summary>
-        /// Render this result in (possibly mutli-line) plain text, with deatils for a default <see cref="NotificationLevel.Error"/> threshold.
-        /// </summary>
-        string RenderPlainText();
-
-        /// <summary>
         /// Render this result in (possibly mutli-line) plain text, with details for a chosen <see cref="NotificationLevel"/> threshold.
         /// </summary>
         string RenderPlainText(NotificationLevel minLevelForDetails);

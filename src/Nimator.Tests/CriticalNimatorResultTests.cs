@@ -32,14 +32,14 @@ namespace Nimator
         public void Constructor_WhenNotGivenFullText_RendersWithMessage(string fullText)
         {
             var sut = new CriticalNimatorResult("dummy message", fullText);
-            Assert.That(sut.RenderPlainText(), Is.EqualTo("dummy message"));
+            Assert.That(sut.RenderPlainText(NotificationLevel.Error), Is.EqualTo("dummy message"));
         }
 
         [Test]
         public void RenderPlainText_WhenCalled_ReturnsFullText()
         {
             var sut = new CriticalNimatorResult("dummy message", "longer full text here");
-            Assert.That(sut.RenderPlainText(), Is.EqualTo("longer full text here"));
+            Assert.That(sut.RenderPlainText(NotificationLevel.Error), Is.EqualTo("longer full text here"));
         }
 
         [TestCase(NotificationLevel.Okay)]

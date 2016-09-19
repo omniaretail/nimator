@@ -46,12 +46,7 @@ namespace Nimator
         {
             return new[] { "UnknownCheck" };
         }
-
-        public string RenderPlainText()
-        {
-            return fullText;
-        }
-
+        
         public string RenderPlainText(NotificationLevel minLevelForDetails)
         {
             return fullText;
