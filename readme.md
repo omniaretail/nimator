@@ -7,3 +7,5 @@ You are looking at a very early version of this codebase. Even though we are dog
 ## License
 
 Code in this repository is available under [the MIT license](license.md), except when explicitly noted otherwise (e.g. when the source code includes a method that has a comment linking to Stack Overflow source post, which entails CC-BY-SA 3.0 with attribution required).
+
+###### About
