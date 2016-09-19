@@ -6,14 +6,14 @@ namespace Nimator.Notifiers
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SlackMessage
     {
-        public SlackMessage(INimatorResult result)
+        public SlackMessage(INimatorResult result, NotificationLevel minLevelForDetails)
         {
             // Because "text" will be shown (a) full-width and (b) full height without
             // a 'Show More...' link, we prefer that to use for the full description.
             // The "attachment" will then be a simple title and image to draw the 
             // attention visually.
 
-            text = "```" + result.RenderPlainText() + "```";
+            text = "```" + result.RenderPlainText(minLevelForDetails) + "```";
 
             SlackMessageAttachments = new[] 
             {

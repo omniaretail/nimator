@@ -42,6 +42,16 @@ namespace Nimator
             Assert.That(sut.RenderPlainText(), Is.EqualTo("longer full text here"));
         }
 
+        [TestCase(NotificationLevel.Okay)]
+        [TestCase(NotificationLevel.Warning)]
+        [TestCase(NotificationLevel.Error)]
+        [TestCase(NotificationLevel.Critical)]
+        public void RenderPlainText_WhenProvidedAnyThreshold_ReturnsFullText(NotificationLevel threshold)
+        {
+            var sut = new CriticalNimatorResult("dummy message", "longer full text here");
+            Assert.That(sut.RenderPlainText(threshold), Is.EqualTo("longer full text here"));
+        }
+
         [Test]
         public void GetFirstFailedLayerName_ForDefaultInstance_ReturnsConstText()
         {

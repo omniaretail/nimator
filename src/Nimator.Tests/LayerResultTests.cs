@@ -46,7 +46,7 @@ namespace Nimator
         }
 
         [Test]
-        public void ToString_WhenResultIsMeaningFul_CombinesAllParts()
+        public void RenderPlainText_WhenResultIsMeaningFul_CombinesAllParts()
         {
             var checkresults = new[]
             {
@@ -64,7 +64,7 @@ namespace Nimator
         }
 
         [Test]
-        public void ToString_WhenChecksHaveErrors_IncludesCheckNames()
+        public void RenderPlainText_WhenChecksHaveErrors_IncludesCheckNames()
         {
             var checkresults = new[]
             {
@@ -87,7 +87,7 @@ namespace Nimator
         }
 
         [Test]
-        public void ToString_WhenChecksHaveErrors_IncludesMessages()
+        public void RenderPlainText_WhenChecksHaveErrors_IncludesMessages()
         {
             var checkresults = new[]
             {
@@ -101,6 +101,26 @@ namespace Nimator
 
             Assert.That(result.ToLowerInvariant(), Does.Contain("abc"));
             Assert.That(result.ToLowerInvariant(), Does.Contain("xyz"));
+        }
+
+        [Test]
+        public void RenderPlainText_WhenAskingForWarnings_IncludesWarningMessages()
+        {
+            var checkresults = new[]
+            {
+                new CheckResult("check-a", NotificationLevel.Okay, "Everything is Okay"),
+                new CheckResult("check-a", NotificationLevel.Warning, "Everything is Warning"),
+                new CheckResult("check-a", NotificationLevel.Error, "Everything is Error"),
+                new CheckResult("check-b", NotificationLevel.Critical, "Everything is Critical"),
+            };
+
+            var sut = new LayerResult("layer A", checkresults);
+
+            var result = sut.RenderPlainText(NotificationLevel.Warning);
+
+            Assert.That(result, Does.Contain("Everything is Warning"));
+            Assert.That(result, Does.Contain("Everything is Error"));
+            Assert.That(result, Does.Contain("Everything is Critical"));
         }
     }
 }

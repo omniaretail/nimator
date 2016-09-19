@@ -46,7 +46,7 @@ namespace Nimator.Notifiers
             var request = new OpsGenieCreateAlertRequest(this.settings.ApiKey, message)
             {
                 alias = "nimator-failure",
-                description = result.RenderPlainText(),
+                description = result.RenderPlainText(settings.Threshold),
                 teams = new[] { this.settings.TeamName },
                 tags = new[] { "Nimator", failingLayerName }
             };

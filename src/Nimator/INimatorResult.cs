@@ -36,25 +36,26 @@ namespace Nimator
         /// <summary>
         /// Get the Name of the first <see cref="ILayer"/> that was considered beyond the <see cref="NotificationLevel"/> threshold.
         /// </summary>
-        /// <returns></returns>
         string GetFirstFailedLayerName();
 
         /// <summary>
         /// Get the Names of all <see cref="ILayer"/>s that were considered beyond the <see cref="NotificationLevel"/> threshold.
         /// </summary>
-        /// <returns></returns>
         string[] GetFailingLayerNames();
 
         /// <summary>
         /// Get the Names of all failing <see cref="ICheck"/>s inside the individual <see cref="ILayer"/>s that were checked.
         /// </summary>
-        /// <returns></returns>
         string[] GetFailingCheckNames();
 
         /// <summary>
-        /// Render this result in (possibly mutli-line) plain text.
+        /// Render this result in (possibly mutli-line) plain text, with deatils for a default <see cref="NotificationLevel.Error"/> threshold.
         /// </summary>
-        /// <returns></returns>
         string RenderPlainText();
+
+        /// <summary>
+        /// Render this result in (possibly mutli-line) plain text, with details for a chosen <see cref="NotificationLevel"/> threshold.
+        /// </summary>
+        string RenderPlainText(NotificationLevel minLevelForDetails);
     }
 }

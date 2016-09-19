@@ -92,6 +92,11 @@ namespace Nimator
 
         public string RenderPlainText()
         {
+            return RenderPlainText(NotificationLevel.Error);
+        }
+
+        public string RenderPlainText(NotificationLevel minLevelForDetails)
+        {
             var sb = new StringBuilder();
 
             sb.AppendFormat(
@@ -105,7 +110,7 @@ namespace Nimator
 
             foreach (var layerResult in LayerResults)
             {
-                sb.AppendFormat(" - {0}\n", layerResult.RenderPlainText());
+                sb.AppendFormat(" - {0}\n", layerResult.RenderPlainText(minLevelForDetails));
             }
 
             return sb.ToString();

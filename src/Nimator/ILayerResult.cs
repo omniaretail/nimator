@@ -25,8 +25,13 @@ namespace Nimator
         IEnumerable<ICheckResult> CheckResults { get; }
 
         /// <summary>
-        /// Creates human-readable representation of this result.
+        /// Creates human-readable representation of this result, with details for <see cref="NotificationLevel.Error"/>.
         /// </summary>
         string RenderPlainText();
+
+        /// <summary>
+        /// Creates human-readable representation of this result, with details for a given <see cref="NotificationLevel"/>.
+        /// </summary>
+        string RenderPlainText(NotificationLevel minLevelForDetails);
     }
 }

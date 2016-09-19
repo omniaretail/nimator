@@ -51,5 +51,10 @@ namespace Nimator
         {
             return fullText;
         }
+
+        public string RenderPlainText(NotificationLevel minLevelForDetails)
+        {
+            return fullText;
+        }
     }
 }

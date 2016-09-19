@@ -17,7 +17,7 @@ namespace Nimator.Notifiers
         {
             if (result.Level >= settings.Threshold)
             {
-                Console.WriteLine(result.RenderPlainText());
+                Console.WriteLine(result.RenderPlainText(settings.Threshold));
             }
         }
     }

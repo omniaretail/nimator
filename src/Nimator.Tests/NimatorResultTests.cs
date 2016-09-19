@@ -1,4 +1,5 @@
 ﻿using System;
+using Moq;
 using NUnit.Framework;
 
 namespace Nimator
@@ -181,7 +182,7 @@ namespace Nimator
 
             sut.LayerResults.Add(new LayerResult("layer-1", new[] {
                 new CheckResult("check-a", NotificationLevel.Okay),
-                new CheckResult("check-b", NotificationLevel.Okay),
+                new CheckResult("check-b", NotificationLevel.Warning),
             }));
 
             sut.LayerResults.Add(new LayerResult("layer-2", new[] {
@@ -207,6 +208,44 @@ namespace Nimator
             Assert.That(result, Does.Contain("layer-1"));
             Assert.That(result, Does.Contain("layer-2"));
             Assert.That(result, Does.Contain("layer-3"));
+        }
+
+        [Test]
+        public void RenderPlainText_ForErrorThreshold_ReturnsSameAsForNoThreshold()
+        {
+            // Set up an decently complex scenario for this smoke test:
+
+            var timestamp = new DateTime(2016, 8, 22, 13, 45, 0);
+            var sut = new NimatorResult(timestamp) { Finished = timestamp.AddSeconds(5) };
+
+            sut.LayerResults.Add(new LayerResult("layer-1", new[] {
+                new CheckResult("check-a", NotificationLevel.Okay),
+                new CheckResult("check-b", NotificationLevel.Warning),
+            }));
+
+            sut.LayerResults.Add(new LayerResult("layer-2", new[] {
+                new CheckResult("check-q", NotificationLevel.Okay),
+                new CheckResult("check-w", NotificationLevel.Error),
+                new CheckResult("check-e", NotificationLevel.Error),
+            }));
+
+            sut.LayerResults.Add(new LayerResult("layer-3", new[] {
+                new CheckResult("check-x", NotificationLevel.Okay),
+                new CheckResult("check-y", NotificationLevel.Okay),
+                new CheckResult("check-z", NotificationLevel.Critical),
+            }));
+
+            Assert.That(sut.RenderPlainText(NotificationLevel.Error), Is.EqualTo(sut.RenderPlainText()));
+        }
+
+        [Test]
+        public void RenderPlainText_ForThreshold_AsksLayerResultsToRenderForThreshold()
+        {
+            var layerResultMock = new Mock<ILayerResult>();
+            var sut = new NimatorResult(DateTime.Now);
+            sut.LayerResults.Add(layerResultMock.Object);
+            Assert.That(sut.RenderPlainText(NotificationLevel.Warning), Is.Not.Empty);
+            layerResultMock.Verify(l => l.RenderPlainText(NotificationLevel.Warning), Times.Once);
         }
 
         [Test]

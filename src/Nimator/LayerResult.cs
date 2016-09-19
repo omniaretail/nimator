@@ -45,8 +45,14 @@ namespace Nimator
         /// <inheritdoc/>
         public string RenderPlainText()
         {
+            return RenderPlainText(NotificationLevel.Error);
+        }
+
+        /// <inheritdoc/>
+        public string RenderPlainText(NotificationLevel minLevelForDetails)
+        {
             var checkErrors = CheckResults
-                .Where(r => r.Level >= NotificationLevel.Error)
+                .Where(r => r.Level >= minLevelForDetails)
                 .Select(r => r.RenderPlainText());
 
             string addendum = "";
