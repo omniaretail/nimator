@@ -1,26 +1,28 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace Nimator.Notifiers
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SlackMessage
     {
         public SlackMessage(INimatorResult result, NotificationLevel minLevelForDetails)
         {
             // Because "text" will be shown (a) full-width and (b) full height without
             // a 'Show More...' link, we prefer that to use for the full description.
-            // The "attachment" will then be a simple title and image to draw the 
-            // attention visually.
+            // The "attachments" will then be a simpler things, drawing attention with
+            // specific coloring and icons.
 
-            text = "```" + result.RenderPlainText(minLevelForDetails) + "```";
+            Text = result.Message
+                + ":\n```" 
+                + result.RenderPlainText(minLevelForDetails) 
+                + "```";
 
             SlackMessageAttachments = new[] 
             {
                 new SlackMessageAttachment
                 {
-                    text = GetEmojiForLevel(result.Level) + " " + result.Message,
-                    color = GetHexForLevel(result.Level)
+                    Text = CallToActionForLevel(result.Level),
+                    Color = GetHexForLevel(result.Level)
                 }
             };
         }
@@ -31,30 +33,32 @@ namespace Nimator.Notifiers
             {
                 new SlackMessageAttachment
                 {
-                    text = addendum,
-                    color = "#00A2E8",
+                    Text = addendum,
+                    Color = "#00A2E8",
                 }
             }).ToArray();
         }
 
-        public string text { get; set; }
+        [JsonProperty("text")]
+        public string Text { get; set; }
 
+        [JsonProperty("attachments")]
         public SlackMessageAttachment[] SlackMessageAttachments { get; set; }
 
-        private static string GetEmojiForLevel(NotificationLevel level)
+        private static string CallToActionForLevel(NotificationLevel level)
         {
             switch (level)
             {
                 case NotificationLevel.Okay:
-                    return ":white_check_mark: ";
+                    return ":white_check_mark: Everything is just fine!";
                 case NotificationLevel.Warning:
-                    return ":warning:";
+                    return ":warning: Careful: warnings are errors of the future!";
                 case NotificationLevel.Error:
-                    return ":x:";
+                    return ":x: You really should take some action!";
                 case NotificationLevel.Critical:
-                    return ":fire: :fire: :fire:";
+                    return ":fire: Stuff is on fire! (Or monitoring's broken...)";
                 default:
-                    return ":grey_question:";
+                    return ":grey_question: It is quite unclear what the status is...";
             }
         }
 
@@ -75,13 +79,15 @@ namespace Nimator.Notifiers
         }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SlackMessageAttachment
     {
-        public string text { get; set; }
+        [JsonProperty("text")]
+        public string Text { get; set; }
 
-        public string[] mrkdwn_in => new[] { "text" };
+        [JsonProperty("mrkdwn_in")]
+        public string[] UseMarkdownTrigger => new[] { "text" };
 
-        public string color { get; set; }
+        [JsonProperty("color")]
+        public string Color { get; set; }
     }
 }

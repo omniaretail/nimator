@@ -30,7 +30,7 @@ namespace Nimator.Notifiers
                 
                 if (settings.DebounceTimeInSecs > 0){
                     dontAlertBefore = DateTime.Now.AddSeconds(settings.DebounceTimeInSecs);
-                    message.AddAttachment("Debouncing next notification until at least *" + dontAlertBefore.ToString("yyyy-MM-dd HH:mm:ss") + "*, even if more problems arise.");
+                    message.AddAttachment("Debouncing messages until at least *" + dontAlertBefore.ToString("yyyy-MM-dd, HH:mm:ss") + "*, even if more problems arise.");
                 }
                     
                 SimpleRestUtils.PostToRestApi(settings.Url, message);
