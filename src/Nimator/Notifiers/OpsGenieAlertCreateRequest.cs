@@ -1,14 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Newtonsoft.Json;
 
 namespace Nimator.Notifiers
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class OpsGenieCreateAlertRequest : OpsGenieRequest
     {
         public OpsGenieCreateAlertRequest(string apiKey, string message)
             : base(apiKey)
         {
-            this.message = message;
+            this.Message = message;
         }
 
         /// <summary>
@@ -16,7 +15,8 @@ namespace Nimator.Notifiers
         /// 
         /// LIMIT: 130 chars
         /// </summary>
-        public string message { get; set; }
+        [JsonProperty("message")]
+        public string Message { get; set; }
 
         /// <summary>
         /// Used for alert deduplication. A user defined identifier for the alert and there can 
@@ -26,7 +26,8 @@ namespace Nimator.Notifiers
         /// 
         /// LIMIT: 512 chars
         /// </summary>
-        public string alias { get; set; }
+        [JsonProperty("alias")]
+        public string Alias { get; set; }
 
         /// <summary>
         /// This field can be used to provide a detailed description of the alert, anything that
@@ -34,7 +35,8 @@ namespace Nimator.Notifiers
         /// 
         /// LIMIT: 15000 chars
         /// </summary>
-        public string description { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
         /// <summary>
         /// List of team names which will be responsible for the alert. Team escalation policies
@@ -43,7 +45,8 @@ namespace Nimator.Notifiers
         /// 
         /// LIMIT: 50 teams
         /// </summary>
-        public string[] teams { get; set; }
+        [JsonProperty("teams")]
+        public string[] Teams { get; set; }
 
         /// <summary>
         /// A comma separated list of labels attached to the alert. You can overwrite Quiet Hours 
@@ -52,6 +55,7 @@ namespace Nimator.Notifiers
         /// 
         /// LIMIT: 20 tags, 50 chars each
         /// </summary>
-        public string[] tags { get; set; }
+        [JsonProperty("tags")]
+        public string[] Tags { get; set; }
     }
 }

@@ -1,18 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Newtonsoft.Json;
 
 namespace Nimator.Notifiers
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class OpsGenieRequest
     {
         public OpsGenieRequest(string apiKey)
         {
-            this.apiKey = apiKey;
+            this.ApiKey = apiKey;
         }
 
         /// <summary>
         /// [MANDATORY] API key is used for authenticating API requests
         /// </summary>
-        public string apiKey { get; set; }
+        [JsonProperty("apiKey")]
+        public string ApiKey { get; set; }
     }
 }

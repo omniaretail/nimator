@@ -45,10 +45,10 @@ namespace Nimator.Notifiers
 
             var request = new OpsGenieCreateAlertRequest(this.settings.ApiKey, message)
             {
-                alias = "nimator-failure",
-                description = result.RenderPlainText(settings.Threshold),
-                teams = new[] { this.settings.TeamName },
-                tags = new[] { "Nimator", failingLayerName }
+                Alias = "nimator-failure",
+                Description = result.RenderPlainText(settings.Threshold),
+                Teams = new[] { this.settings.TeamName },
+                Tags = new[] { "Nimator", failingLayerName }
             };
 
             SimpleRestUtils.PostToRestApi(AlertUrl, request);

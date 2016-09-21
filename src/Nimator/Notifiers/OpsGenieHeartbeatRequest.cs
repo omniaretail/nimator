@@ -1,19 +1,19 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Newtonsoft.Json;
 
 namespace Nimator.Notifiers
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class OpsGenieHeartbeatRequest : OpsGenieRequest
     {
         public OpsGenieHeartbeatRequest(string apiKey, string name)
             : base(apiKey)
         {
-            this.name = name;
+            this.Name = name;
         }
 
         /// <summary>
         /// Name of the heartbeat.
         /// </summary>
-        public string name { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }
