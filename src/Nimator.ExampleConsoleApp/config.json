@@ -16,11 +16,30 @@
       "$type": "Nimator.Settings.ConsoleSettings, Nimator",
       "Threshold": "Okay"
     }
+
+    // [SLACK] Enter your API url and uncomment:
+    //,
+    //{
+    //  "$type": "Nimator.Settings.SlackSettings, Nimator",
+    //  "Threshold":  "Okay",
+    //  "Url": "https://hooks.slack.com/services/YOUR/INTEGATION/url-goes-here",
+    //  "DebounceTimeInSecs": 60
+    //}
+
+    // [OPSGENIE] Enter your API Key and Heartbeat name and uncomment:
+    //,
+    //{
+    //  "$type": "Nimator.Settings.OpsGenieSettings, Nimator",
+    //  "Threshold": "Error",
+    //  "ApiKey": "your-key-here",
+    //  "TeamName": "ops_team",
+    //  "HeartbeatName":  "nimator"
+    //}
   ],
 
   "Layers": [
     {
-      "Name": "Demo layer 1",
+      "Name": "Demo Layer 1",
       "Checks": [
         {
           "$type": "Nimator.NoopCheckSettings, Nimator",
@@ -33,7 +52,7 @@
       ]
     },
     {
-      "Name": "Demo layer 2",
+      "Name": "Demo Layer 2",
       "Checks": [
         {
           "$type": "Nimator.NoopCheckSettings, Nimator",
