@@ -1,4 +1,5 @@
-﻿using Nimator.Notifiers;
+﻿using System;
+using Nimator.Notifiers;
 
 namespace Nimator.Settings
 {
@@ -18,7 +19,7 @@ namespace Nimator.Settings
         /// <inheritDoc/>
         public override INotifier ToNotifier()
         {
-            return new ConsoleNotifier(this);
+            return new ConsoleNotifier(this, Console.WriteLine);
         }
 
         /// <summary>

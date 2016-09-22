@@ -8,11 +8,18 @@ namespace Nimator.Notifiers
     public class ConsoleNotifierTests : NotifierTests
     {
         private ConsoleSettings fakeSettings;
+        private Action<string> fakeWriteLine;
+        private string lastWrittenLine;
 
         [SetUp]
         public override void SetUp()
         {
             base.SetUp();
+
+            fakeWriteLine = s =>
+            {
+                lastWrittenLine = s;
+            };
 
             fakeSettings = new ConsoleSettings
             {
@@ -23,8 +30,15 @@ namespace Nimator.Notifiers
         [Test]
         public void Constructor_WhenSettingsIsNull_ThrowsException()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => new ConsoleNotifier(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => new ConsoleNotifier(null, fakeWriteLine));
             Assert.That(exception.ParamName, Is.EqualTo("settings"));
+        }
+
+        [Test]
+        public void Constructor_WhenWriteLineIsNull_ThrowsException()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() => new ConsoleNotifier(fakeSettings, null));
+            Assert.That(exception.ParamName, Is.EqualTo("writeLine"));
         }
 
         [TestCase(NotificationLevel.Okay)]
@@ -32,18 +46,17 @@ namespace Nimator.Notifiers
         [TestCase(NotificationLevel.Error)]
         [TestCase(NotificationLevel.Critical)]
         [TestCase(Int32.MaxValue)] // Represents some yet unknown NotifcationLevel
-        public void Notify_WhenPassedResultAtThreshold_WillPostToRestApi(NotificationLevel level)
+        public void Notify_WhenPassedResultAtThreshold_WillCallWriteLine(NotificationLevel level)
         {
             fakeSettings.Threshold = level;
-            var sut = fakeSettings.ToNotifier();
+            var sut = new ConsoleNotifier(fakeSettings, fakeWriteLine);
             var resultMock = new Mock<INimatorResult>();
             resultMock.Setup(r => r.Level).Returns(fakeSettings.Threshold);
+            resultMock.Setup(r => r.RenderPlainText(level)).Returns(level.ToString());
+
             sut.Notify(resultMock.Object);
 
-            // Cannot easily assert Console.WriteLine calls without adding
-            // enterprise-level overkill to factor out the Console depenency
-            // so we'll just make this a smoke test: if we get here without
-            // exception, everything should be fine.
+            Assert.That(lastWrittenLine, Is.EqualTo(level.ToString()));
         }
     }
 }
