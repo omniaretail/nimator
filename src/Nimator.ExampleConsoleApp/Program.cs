@@ -2,9 +2,6 @@
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using log4net;
-
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace Nimator.ExampleConsoleApp
 {
@@ -21,10 +18,12 @@ namespace Nimator.ExampleConsoleApp
         private const string ConfigResource = "Nimator.ExampleConsoleApp.config.json";
 
         // See app.config for logging setup.
-        private static readonly ILog logger = LogManager.GetLogger("Nimator");
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("Nimator");
 
         static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure(); // Alternatively: http://stackoverflow.com/a/10204514/419956
+
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionLogger;
 
             logger.Info("Creating Nimator.");
