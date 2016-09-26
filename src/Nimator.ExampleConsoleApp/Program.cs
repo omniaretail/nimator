@@ -15,7 +15,7 @@ namespace Nimator.ExampleConsoleApp
         // seperate file or whatever persistence you'd prefer. It might be good not
         // to persist it in a database system, since your monitoring app should pro-
         // bably have as few dependencies as possible...
-        private const string ConfigResource = "Nimator.ExampleConsoleApp.config.json";
+        private static readonly string configResource = Assembly.GetExecutingAssembly().GetName().Name + ".config.json";
 
         // See app.config for logging setup.
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("Nimator");
@@ -43,7 +43,7 @@ namespace Nimator.ExampleConsoleApp
 
         private static INimator CreateNimator()
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ConfigResource))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configResource))
             using (var reader = new StreamReader(stream))
             {
                 var json = reader.ReadToEnd();
