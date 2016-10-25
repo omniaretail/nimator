@@ -4,6 +4,20 @@ A light-weight framework for creating an application to monitor your systems. Yo
 
 You are looking at a very early version of this codebase. Even though we are dogfooding this code, please consider it as pre-alpha code at this moment.
 
+## Why Another Monitoring Tool?
+
+There's a plethora of monitoring and alerting tools (both commercial and open source) out there already: [Nagios](https://www.nagios.org/), [Bosun](https://bosun.org/), [ElasticSearch Marvel](https://www.elastic.co/products/marvel), and many, many more. So why create a new one?
+
+Nimator is meant to be a light-weight framework for creating small monitoring tools, where you can write the code for checking parts of your system using C# (or VB.NET, if that's your thing). It is not *meant* to be competitive with the bigger, fully-fledged tools: if you have a large organization you're probably better off with one of the alternatives. However, if you are a small .NET shop, fluent in C#, and want to write a few system-monitoring checks in your favorite language: Nimator might be useful to you.
+
+We mostly wrote this because we needed it ourselves (so you can count on this code being run in production in at least one place). We open sourced it because it's not so much our core business, and it might be of use to someone else too.
+
+So, want to write a few lines of C# to periodically monitor your systems, and not have to worry about aggregating, exception handling, distribution, etc? Read on!
+
+## Full Docs
+
+Additional documentation is a work in progress, to be found in [the wiki](../../wiki). But you can also read on here, with the [Getting Started](#getting-started) section.
+
 ## Getting Started
 
 ### Semi-Quick Start
@@ -116,3 +130,7 @@ The above command will get you the latest version. Please note that we will not 
 ## License
 
 Code in this repository is available under [the MIT license](license.md), except when explicitly noted otherwise (e.g. when the source code includes a method that has a comment linking to Stack Overflow source post, which entails CC-BY-SA 3.0 with attribution required).
+
+## Questions
+
+If you have an *issue* (bug, feature request, etc), please report it on GitHub. If you have a question about this project or its use, please contact the main committer on nimator-at-jeroenheijmans-dot-nl or via Twitter @jeroenheijmans.
