@@ -8,6 +8,8 @@ namespace Nimator.Util
     // implementation. But for now, let's isolate all Api Calls here.
     internal static class SimpleRestUtils
     {
+        private static readonly TimeSpan defaultTimeout = TimeSpan.FromSeconds(60);
+
         public static Action<string, object> PostToRestApi { get; set; } = PostToRestApiInternal;
 
         // Okay, this method is real dirty, but pending a more robust REST
@@ -21,7 +23,7 @@ namespace Nimator.Util
         
         private static void PostToRestApiInternal(string url, object message)
         {
-            using (var client = new WebClient())
+            using (var client = new ExtendedWebClient(defaultTimeout))
             {
                 try
                 {
