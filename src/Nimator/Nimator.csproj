@@ -93,6 +93,9 @@
     <Compile Include="Settings\SlackSettings.cs" />
     <Compile Include="NimatorEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ExtendedWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Util\SimpleRestUtils.cs" />
     <Compile Include="Util\StringExtensions.cs" />
     <Compile Include="Util\WebExceptionExtensions.cs" />
