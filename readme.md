@@ -1,4 +1,5 @@
-# Nimator [![(AppVeyor status...)](https://ci.appveyor.com/api/projects/status/ghh8tjguwyb9wpru?svg=true)](https://ci.appveyor.com/project/JeroenHeijmans/nimator)
+# Nimator
+[![Build status](https://ci.appveyor.com/api/projects/status/rs9bt4w50uod4j3g?svg=true)](https://ci.appveyor.com/project/OmniaRetail/nimator) [![NuGet](https://buildstats.info/nuget/Nimator)](https://www.nuget.org/packages/Nimator/)
 
 A light-weight framework for creating an application to monitor your systems. You to write checks for your systems in C#, and the framework takes care of (nearly all) the rest.
 
