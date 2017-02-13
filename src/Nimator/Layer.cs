@@ -24,9 +24,27 @@ namespace Nimator
 
         public ILayerResult Run()
         {
-            var tasks = checks.Select(c => c.RunAsync()).ToArray();            
+            var tasks = checks.Select(GetResult).ToArray();
             var checkResults = Task.WhenAll(tasks).Result;
-            return new LayerResult(this.Name, checkResults); 
+            return new LayerResult(this.Name, checkResults);
+        }
+
+        private Task<ICheckResult> GetResult(ICheck check)
+        {
+            try
+            {
+                return check.RunAsync();
+            }
+            catch (Exception ex)
+            {
+                var result = new CheckResult(
+                    check?.ShortName ?? "Unknown",
+                    NotificationLevel.Critical,
+                    ex.ToString()
+                );
+
+                return Task.FromResult<ICheckResult>(result);
+            }
         }
     }
 }
