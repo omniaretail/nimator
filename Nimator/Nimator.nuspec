@@ -2,11 +2,11 @@
 <package >
   <metadata>
     <id>Nimator</id>
-    <version>0.1.3</version>
-    <authors>Jeroen Heijmans, Nimator Authors</authors>
-    <owners>jeroenheijmans</owners>
+    <version>0.1.4</version>
+    <authors>Omnia Retail</authors>
+    <owners>Omnia Retail</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
-    <projectUrl>https://github.com/omniaretail/Nimator</projectUrl>
+    <projectUrl>https://github.com/omniaretail/nimator</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/omniaretail/nimator/master/nimator.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Nimator is a light-weight framework for monitoring your systems, allowing you to write custom system-checks in C#.</summary>
@@ -14,9 +14,5 @@
     <releaseNotes>This is an early version of Nimator. It is ready to be used (and *is* being used in production by some), but it's probably still wise to treat it as alpha software. Until version 1.0 has been reached there will likely be breaking changes between versions more often.</releaseNotes>
     <copyright>Copyright ©2016 Nimator Authors</copyright>
     <tags>nimator monitoring monitor instrumentation logging log health diagnostics</tags>
-    <dependencies>
-      <dependency id="Newtonsoft.Json" version="9.0" />
-      <dependency id="log4net" version="2.0.5" />
-    </dependencies>
   </metadata>
 </package>
