@@ -7,7 +7,7 @@
     <owners>jeroenheijmans</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/omniaretail/Nimator</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/omniaretail/Nimator/master/nimator.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/omniaretail/nimator/master/nimator.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Nimator is a light-weight framework for monitoring your systems, allowing you to write custom system-checks in C#.</summary>
     <description>Nimator is a light-weight framework for monitoring your systems, and getting notified through various channels. Note that this is a very early version, and most of the "documentation" would actually be the source code. See GitHub (the Project Site) for details on the roadmap for documentation as well as new features.</description>
