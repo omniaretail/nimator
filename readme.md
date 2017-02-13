@@ -24,11 +24,11 @@ Additional documentation is a work in progress, to be found in [the wiki](../../
 
 1. Create a new Console Application project
 2. Run `Install-Package Nimator` in the Package Manager Console
-3. Copy the contents of [the example `class Program {...}`](/src/Nimator.ExampleConsoleApp/Program.cs) over your blank `Program`
+3. Copy the contents of [the example `class Program {...}`](/Nimator.ExampleConsoleApp/Program.cs) over your blank `Program`
 4. Create an file `config.json` next to `Program.cs`
 5. Set `config.json` to be an *embedded resource*
-6. Copy the contents of [the example `config.json`](/src/Nimator.ExampleConsoleApp/config.json) into that file
-7. Either configure `log4net` analogous to [the example `App.config`](/src/Nimator.ExampleConsoleApp/App.config), or comment out the `Configure()` call.
+6. Copy the contents of [the example `config.json`](/Nimator.ExampleConsoleApp/config.json) into that file
+7. Either configure `log4net` analogous to [the example `App.config`](/Nimator.ExampleConsoleApp/App.config), or comment out the `Configure()` call.
 8. Compile and run!
 
 You should now see something along these lines:
