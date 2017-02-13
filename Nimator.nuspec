@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <package >
   <metadata>
     <id>Nimator</id>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <authors>Jeroen Heijmans, Nimator Authors</authors>
     <owners>jeroenheijmans</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
