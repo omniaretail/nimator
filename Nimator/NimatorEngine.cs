@@ -9,7 +9,7 @@ namespace Nimator
     /// </summary>
     public class NimatorEngine : INimatorEngine
     {
-        private const NotificationLevel StopProcessingAtThreshold = NotificationLevel.Error;
+        private const NotificationLevel StopProcessingAtThreshold = NotificationLevel.Critical;
 
         private readonly IList<ILayer> layers;
         

@@ -10,19 +10,40 @@ namespace Nimator.CouchDb
 {
     public class CouchNimator : INimator
     {
-        public CouchNimator()
+        private readonly INimator _nimator;
+        private CouchNimator(INimator nimator)
         {
+            Guard.AgainstNull(nameof(nimator), nimator);
 
+            _nimator = nimator;
         }
 
         public void TickSafe(ILog logger)
         {
-            throw new NotImplementedException();
+            _nimator.TickSafe(logger);
         }
 
-        public static INimator FromSettings(ILog logger, string json, MonitoringSettings monitorSettings)
+        public static INimator FromSettings(ILog logger, CouchDbMonitoringSettings monitorSettings, string json = "{}")
         {
-            return Nimator.FromSettings(logger, json);
-        }
+            Guard.AgainstNull(nameof(logger), logger);
+            Guard.AgainstNull(nameof(monitorSettings), monitorSettings);
+
+            var settings = NimatorSettings.FromJson(json);
+            var layers = settings.Layers.ToList();
+
+            layers.Add(new LayerSettings
+            {
+                Name = "CouchDb",
+                Checks = new ICheckSettings[]
+                {
+                    new MemoryCheckSettings(monitorSettings.ConnectionString, monitorSettings.Credentials),
+                    new BucketRecordsCheckSettings(monitorSettings.ConnectionString, monitorSettings.Bucket, monitorSettings.Credentials)
+                }
+            });
+
+            settings.Layers = layers.ToArray();
+
+            return new CouchNimator(Nimator.FromSettings(logger, settings.ToJson()));
+        } 
     }
 }

@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Nimator.CouchDb;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using log4net;
+using log4net.Config;
 
 namespace Nimator.ExampleConsoleApp
 {
@@ -18,11 +21,11 @@ namespace Nimator.ExampleConsoleApp
         private static readonly string configResource = Assembly.GetExecutingAssembly().GetName().Name + ".config.json";
 
         // See app.config for logging setup.
-        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("Nimator");
+        private static readonly ILog logger = LogManager.GetLogger("Nimator");
 
         static void Main()
         {
-            log4net.Config.XmlConfigurator.Configure(); // Alternatively: http://stackoverflow.com/a/10204514/419956
+            XmlConfigurator.Configure(); // Alternatively: http://stackoverflow.com/a/10204514/419956
 
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionLogger;
 
@@ -31,6 +34,8 @@ namespace Nimator.ExampleConsoleApp
             var nimator = CreateNimator();
 
             logger.Info($"Nimator created. Starting timer for cycle every {CheckIntervalInSecs} seconds.");
+
+            nimator.TickSafe(logger);
 
             using (new Timer(_ => nimator.TickSafe(logger), null, 0, CheckIntervalInSecs * 1000))
             {
@@ -43,11 +48,17 @@ namespace Nimator.ExampleConsoleApp
 
         private static INimator CreateNimator()
         {
+            var monitoringSettings = new CouchDbMonitoringSettings
+            {
+                Bucket = "travel-sample",
+                ConnectionString = "http://localhost:8091"
+            };
+
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configResource))
             using (var reader = new StreamReader(stream))
             {
                 var json = reader.ReadToEnd();
-                return Nimator.FromSettings(logger, json);
+                return CouchNimator.FromSettings(logger, monitoringSettings, json);
             }
         }
 
