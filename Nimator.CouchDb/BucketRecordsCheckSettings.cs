@@ -1,13 +1,14 @@
 ﻿namespace Nimator.CouchDb
 {
-    /// <summary>
-    /// Settings for checks that don't do anything besides returning a specific result after an (optional) delay.
-    /// </summary>
     public class BucketRecordsCheckSettings : ICheckSettings
     {
-        private readonly string _credentials;
-        private readonly string _connectionString;
-        public string Bucket { get; }
+        public string ConnectionString { get; set; }
+        public string Credentials { get; set; }
+        public string Bucket { get; set; }
+
+        /// <summary>
+        /// The maximum allowed records within specified bucket
+        /// </summary>
         public int MaximumRecords => 100000;
 
         /// <summary>
@@ -19,15 +20,15 @@
             Guard.AgainstNull(nameof(credentials), credentials);
             Guard.AgainstNull(nameof(bucket), bucket);
 
-            _connectionString = connectionString;
-            _credentials = credentials;
+            ConnectionString = connectionString;
+            Credentials = credentials;
             Bucket = bucket;
         }
 
         /// <inheritDoc/>
         public ICheck ToCheck()
         {
-            return new BucketRecordsCheck(this, new CouchDbService(_connectionString, _credentials));
+            return new BucketRecordsCheck(this, new CouchDbService(ConnectionString, Credentials));
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Nimator.CouchDb
+﻿namespace Nimator.CouchDb.Models
 {
     public class NodeInformation
     {

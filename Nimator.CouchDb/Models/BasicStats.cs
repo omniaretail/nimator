@@ -1,4 +1,4 @@
-﻿namespace Nimator.CouchDb
+﻿namespace Nimator.CouchDb.Models
 {
     public class BasicStats
     {

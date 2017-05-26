@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Nimator.CouchDb.Models;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace Nimator.CouchDb.Tests
     public class BucketRecordsCheckTests
     {
         [Test]
-        public void Constructing_BucketRecordsCheckSettingsIsNull_ArgumentNullExceptionThrown()
+        public void Constructing_WhenBucketRecordsCheckSettingsIsNull_ArgumentNullExceptionThrown()
         {
             //Arrange
             var couchDbService = Substitute.For<ICouchDbService>();
@@ -25,10 +26,10 @@ namespace Nimator.CouchDb.Tests
         }
 
         [Test]
-        public void Constructing_ICouchDbServiceIsNull_ArgumentNullExceptionThrown()
+        public void Constructing_WhenICouchDbServiceIsNull_ArgumentNullExceptionThrown()
         {
             //Arrange
-            var settings = new BucketRecordsCheckSettings("","","");
+            var settings = new BucketRecordsCheckSettings(string.Empty ,string.Empty, string.Empty);
 
             //Act
             //Assert
@@ -36,11 +37,11 @@ namespace Nimator.CouchDb.Tests
         }
 
         [Test]
-        public void RunAsync_BucketInformationIsNull_NullReferenceExeptionThrown()
+        public void RunAsync_WhenBucketInformationIsNull_NotificationLevelError()
         {
             //Arrange
             var couchDbService = Substitute.For<ICouchDbService>();
-            var settings = new BucketRecordsCheckSettings("","","");
+            var settings = new BucketRecordsCheckSettings(string.Empty, string.Empty, string.Empty);
             var SUT = new BucketRecordsCheck(settings, couchDbService);
 
             //Act
@@ -53,11 +54,11 @@ namespace Nimator.CouchDb.Tests
         [TestCase(0, NotificationLevel.Okay)]
         [TestCase(20000, NotificationLevel.Okay)]
         [TestCase(120000, NotificationLevel.Warning)]
-        public void RunAsync_BucketInformationWithRecords_ReturnsNotificationLevel(int records, NotificationLevel notification)
+        public void RunAsync_WhenBucketInformationWithRecords_ReturnsNotificationLevel(int records, NotificationLevel notification)
         {
             //Arrange
             var couchDbService = Substitute.For<ICouchDbService>();
-            couchDbService.GetBucketInformation("")
+            couchDbService.GetBucketInformation(string.Empty)
                 .Returns(x => Task.FromResult(new BucketInformation
                 {
                     basicStats = new BasicStats
@@ -66,7 +67,7 @@ namespace Nimator.CouchDb.Tests
                     }
                 }));
 
-            var settings = new BucketRecordsCheckSettings("", "", "");
+            var settings = new BucketRecordsCheckSettings(string.Empty, string.Empty, string.Empty);
             var SUT = new BucketRecordsCheck(settings, couchDbService);
 
             //Act

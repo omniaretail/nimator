@@ -13,7 +13,7 @@ namespace Nimator.Settings
         /// </summary>
         public ConsoleSettings()
         {
-            this.Threshold = NotificationLevel.Error;
+            this.Threshold = NotificationLevel.Okay;
         }
 
         /// <inheritDoc/>

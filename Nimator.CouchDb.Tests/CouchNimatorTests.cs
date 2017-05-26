@@ -10,7 +10,7 @@ namespace Nimator.CouchDb.Tests
     public class CouchNimatorTests
     {
         [Test]
-        public void FromSetting_LoggerIsNull_ArgumentNullException()
+        public void FromSetting_WhenLoggerIsNull_ArgumentNullException()
         {
             //Arrange
             var monitorSettings = new CouchDbMonitoringSettings();
@@ -21,7 +21,7 @@ namespace Nimator.CouchDb.Tests
         }
 
         [Test]
-        public void FromSetting_CouchDbMonitoringSettingsIsNull_ArgumentNullException()
+        public void FromSetting_WhenCouchDbMonitoringSettingsIsNull_ArgumentNullException()
         {
             //Arrange
             var logger = Substitute.For<ILog>();
@@ -32,13 +32,14 @@ namespace Nimator.CouchDb.Tests
         }
 
         [Test]
-        public void FromSetting_WithEmptySettings_LogsWarning()
+        public void FromSetting_WhenWithEmptySettings_LogsWarning()
         {
             //Arrange
             var monitorSettings = new CouchDbMonitoringSettings
             {
                 ConnectionString = string.Empty,
-                Bucket = string.Empty
+                Bucket = string.Empty,
+                Credentials = string.Empty
             };
             var logger = Substitute.For<ILog>();
 

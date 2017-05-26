@@ -47,7 +47,7 @@
         },
         {
           "$type": "Nimator.NoopCheckSettings, Nimator",
-          "LevelToSimulate": "Warning" // Or one of: ["Warning", "Error", "Critical"]
+          "LevelToSimulate": "Warning" // Or one of: ["Okay", "Error", "Critical"]
         }
       ]
     },
@@ -56,7 +56,7 @@
       "Checks": [
         {
           "$type": "Nimator.NoopCheckSettings, Nimator",
-          "LevelToSimulate": "Error" // Or one of: ["Warning", "Error", "Critical"]
+          "LevelToSimulate": "Warning" // Or one of: ["Okay", "Error", "Critical"]
         }
       ]
     }

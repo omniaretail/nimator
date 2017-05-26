@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Nimator.CouchDb.Models;
 
 namespace Nimator.CouchDb
 {
-    /// <summary>
-    /// Example <see cref="ICheck"/> that does no actual check but always returns a
-    /// certain result.
-    /// </summary>
     public class BucketRecordsCheck : ICheck
     {
         private readonly BucketRecordsCheckSettings _settings;
         private readonly ICouchDbService _service;
 
-        /// <summary>
-        /// Constructs a check based on certain <see cref="BucketRecordsCheckSettings"/>.
-        /// </summary>
-        /// <param name="settings"></param>
-        /// <param name="service"></param>
         public BucketRecordsCheck(BucketRecordsCheckSettings settings, ICouchDbService service)
         {
             Guard.AgainstNull(nameof(settings), settings);
@@ -26,13 +18,8 @@ namespace Nimator.CouchDb
             _service = service;
         }
 
-        /// <inheritDoc/>
         public string ShortName => nameof(BucketRecordsCheck);
 
-        /// <summary>
-        /// Will return a task that promises a <see cref="ICheckResult"/>, after a possible Delay.
-        /// </summary>
-        /// <returns></returns>
         public async Task<ICheckResult> RunAsync()
         {
             NotificationLevel returnValue;
@@ -53,6 +40,11 @@ namespace Nimator.CouchDb
             return new CheckResult(this.ShortName, returnValue, message);
         }
 
+        /// <summary>
+        /// Checks for if there are not too many records in a specified bucket
+        /// </summary>
+        /// <param name="bucketInformation">Bucket data from the couchDb</param>
+        /// <returns><see cref="NotificationLevel"/></returns>
         private NotificationLevel CheckForAvailableRecords(BucketInformation bucketInformation)
         {
             return bucketInformation.basicStats.itemCount < _settings.MaximumRecords ? NotificationLevel.Okay : NotificationLevel.Warning;

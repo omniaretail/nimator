@@ -1,31 +1,27 @@
 ﻿namespace Nimator.CouchDb
 {
-    /// <summary>
-    /// Settings for checks that don't do anything besides returning a specific result after an (optional) delay.
-    /// </summary>
     public class MemoryCheckSettings : ICheckSettings
     {
-        private readonly string _credentials;
-        private readonly string _connectionString;
-
-        public int MinimalMemoryPercentage => 15;
+        public string ConnectionString { get; set; }
+        public string Credentials { get; set; }
 
         /// <summary>
-        /// Constructs default settings.
+        /// Minimal available memory on the system
         /// </summary>
+        public int MinimalMemoryPercentage => 15;
+
         public MemoryCheckSettings(string connectionString, string credentials)
         {
             Guard.AgainstNull(nameof(connectionString), connectionString);
             Guard.AgainstNull(nameof(credentials), credentials);
 
-            _connectionString = connectionString;
-            _credentials = credentials;
+            ConnectionString = connectionString;
+            Credentials = credentials;
         }
 
-        /// <inheritDoc/>
         public ICheck ToCheck()
         {
-            return new MemoryCheck(this, new CouchDbService(_connectionString, _credentials));
+            return new MemoryCheck(this, new CouchDbService(ConnectionString, Credentials));
         }
     }
 }

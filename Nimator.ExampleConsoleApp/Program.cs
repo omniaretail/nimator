@@ -1,5 +1,6 @@
 ﻿using Nimator.CouchDb;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -35,8 +36,6 @@ namespace Nimator.ExampleConsoleApp
 
             logger.Info($"Nimator created. Starting timer for cycle every {CheckIntervalInSecs} seconds.");
 
-            nimator.TickSafe(logger);
-
             using (new Timer(_ => nimator.TickSafe(logger), null, 0, CheckIntervalInSecs * 1000))
             {
                 Console.WriteLine("Press any key to exit.");
@@ -48,11 +47,15 @@ namespace Nimator.ExampleConsoleApp
 
         private static INimator CreateNimator()
         {
+            var username = ConfigurationManager.AppSettings["CouchDbUsername"];
+            var password = ConfigurationManager.AppSettings["CouchDbPassword"];
+
             var monitoringSettings = new CouchDbMonitoringSettings
             {
                 Bucket = "travel-sample",
-                ConnectionString = "http://localhost:8091"
-            };
+                ConnectionString = "http://localhost:8091",
+                Credentials = $"{username}:{password}"
+        };
 
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configResource))
             using (var reader = new StreamReader(stream))

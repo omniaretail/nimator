@@ -1,37 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Nimator.CouchDb.Models;
 
 namespace Nimator.CouchDb
 {
-    /// <summary>
-    /// Example <see cref="ICheck"/> that does no actual check but always returns a
-    /// certain result.
-    /// </summary>
     public class MemoryCheck : ICheck
     {
         private readonly MemoryCheckSettings _settings;
         private readonly ICouchDbService _service;
 
-        /// <summary>
-        /// Constructs a check based on certain <see cref="MemoryCheckSettings"/>.
-        /// </summary>
-        /// <param name="settings"></param>
         public MemoryCheck(MemoryCheckSettings settings, ICouchDbService service)
         {
             Guard.AgainstNull(nameof(settings), settings);
             Guard.AgainstNull(nameof(service), service);
 
-            this._settings = settings;
+            _settings = settings;
             _service = service;
         }
 
-        /// <inheritDoc/>
         public string ShortName => nameof(MemoryCheck);
 
-        /// <summary>
-        /// Will return a task that promises a <see cref="ICheckResult"/>, after a possible Delay.
-        /// </summary>
-        /// <returns></returns>
         public async Task<ICheckResult> RunAsync()
         {
             NotificationLevel returnValue;
@@ -52,9 +40,14 @@ namespace Nimator.CouchDb
             return new CheckResult(this.ShortName, returnValue, message);
         }
 
+        /// <summary>
+        /// Checks for if there is enough memory on the server
+        /// </summary>
+        /// <param name="nodeInformation">Node data from the couchDb</param>
+        /// <returns><see cref="NotificationLevel"/></returns>
         private NotificationLevel CheckForMemoryAvailability(NodeInformation nodeInformation)
         {
-            var availableMemory = (1 - (double)nodeInformation.storageTotals.ram.used / (double)nodeInformation.storageTotals.ram.total) * 100;
+            var availableMemory = ((double)nodeInformation.storageTotals.ram.total / (double)nodeInformation.storageTotals.ram.used - 1) * 100;
 
             return availableMemory > _settings.MinimalMemoryPercentage
                 ? NotificationLevel.Okay
