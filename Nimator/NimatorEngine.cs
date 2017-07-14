@@ -38,9 +38,15 @@ namespace Nimator
             {
                 return RunUnsafe();
             }
+            catch (AggregateException ex)
+            {
+                var fullText = $"Nimator itself failed: {GetAggregateExceptionMessage(ex)}";
+
+                return new CriticalNimatorResult("Nimator (or one of its layers) itself failed.", fullText);
+            }
             catch (Exception ex)
             {
-                var fullText = $"Nimator (or one of its layers) itself failed. Exception '{ex.GetType().Name}' with message: {ex.Message}";
+                var fullText = $"Nimator itself failed: {GetInnerExceptionMessage(ex)}";
 
                 return new CriticalNimatorResult("Nimator (or one of its layers) itself failed.", fullText);
             }
@@ -70,6 +76,40 @@ namespace Nimator
             nimatorResult.Finished = AmbientTimeProvider.GetNow();
 
             return nimatorResult;
+        }
+
+        private string GetInnerExceptionMessage(Exception ex)
+        {
+            if (ex == null)
+            {
+                return string.Empty;
+            }
+
+            string message = ex.Message + Environment.NewLine;
+
+            if (ex.InnerException != null)
+            {
+                message += '\t' + GetInnerExceptionMessage(ex.InnerException);
+            }
+
+            return message;
+        }
+
+        private string GetAggregateExceptionMessage(AggregateException ex)
+        {
+            if (ex == null)
+            {
+                return string.Empty;
+            }
+
+            string message = "";
+
+            foreach (var innerEx in ex.InnerExceptions)
+            {
+                message += '\t' + innerEx.Message;
+            }
+
+            return message;
         }
 
         /// <inheritDoc/>

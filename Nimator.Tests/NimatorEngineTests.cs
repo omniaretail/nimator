@@ -134,6 +134,58 @@ namespace Nimator
         }
 
         [Test]
+        public void CheckLayers_WhenOneLayerThrowsAggregateExceptionWithOneInnerException_GetUsefulMessage()
+        {
+            var layer1 = new Mock<ILayer>();
+            layer1.Setup(l => l.Run()).Throws(new AggregateException(new[] { new Exception("failure1") }));
+
+            var nimator = new NimatorEngine();
+
+            nimator.AddLayer(layer1.Object);
+
+            var result = nimator.RunSafe();
+
+            Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
+            Assert.That(result.RenderPlainText(NotificationLevel.Critical), Does.Contain("failure1"));
+        }
+
+        [Test]
+        public void CheckLayers_WhenOneLayerThrowsAggregateExceptionWithMultipleInnerException_GetUsefulMessage()
+        {
+            var layer1 = new Mock<ILayer>();
+            layer1.Setup(l => l.Run()).Throws(new AggregateException(new[]
+                {new Exception("failure1"), new Exception("failure2"), new Exception("failure3")}));
+
+            var nimator = new NimatorEngine();
+
+            nimator.AddLayer(layer1.Object);
+
+            var result = nimator.RunSafe();
+
+            Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
+            Assert.That(result.RenderPlainText(NotificationLevel.Critical), Does.Contain("failure1"));
+            Assert.That(result.RenderPlainText(NotificationLevel.Critical), Does.Contain("failure2"));
+            Assert.That(result.RenderPlainText(NotificationLevel.Critical), Does.Contain("failure3"));
+        }
+
+        [Test]
+        public void CheckLayers_WhenOneLayerThrowsExceptionWithInnerException_GetUsefulMessage()
+        {
+            var layer1 = new Mock<ILayer>();
+            layer1.Setup(l => l.Run()).Throws(new Exception("failure1", new Exception("innerFailure")));
+
+            var nimator = new NimatorEngine();
+
+            nimator.AddLayer(layer1.Object);
+
+            var result = nimator.RunSafe();
+
+            Assert.That(result.Level, Is.EqualTo(NotificationLevel.Critical));
+            Assert.That(result.RenderPlainText(NotificationLevel.Critical), Does.Contain("failure1"));
+            Assert.That(result.RenderPlainText(NotificationLevel.Critical), Does.Contain("innerFailure"));
+        }
+
+        [Test]
         public void AddLayer_WhenPassedIndividualParts_CreatesNewLayer()
         {
             var nimator = new NimatorEngine();
