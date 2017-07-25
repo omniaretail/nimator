@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,10 +10,11 @@ namespace Nimator
     /// </summary>
     public class NimatorEngine : INimatorEngine
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(NimatorEngine));
         private const NotificationLevel StopProcessingAtThreshold = NotificationLevel.Error;
 
         private readonly IList<ILayer> layers;
-        
+
         /// <summary>
         /// Constructs default engine without any <see cref="ILayer"/>s.
         /// </summary>
@@ -40,13 +42,21 @@ namespace Nimator
             }
             catch (AggregateException ex)
             {
-                var fullText = $"Nimator itself failed: {GetAggregateExceptionMessage(ex)}";
+                var error = GetAggregateExceptionMessageAndStackTrace(ex);
+                var fullText = $"Nimator itself failed: {error.Item1}";
+
+                _logger.Error(fullText, ex);
+                _logger.Error(error.Item2, ex);
 
                 return new CriticalNimatorResult("Nimator (or one of its layers) itself failed.", fullText);
             }
             catch (Exception ex)
             {
-                var fullText = $"Nimator itself failed: {GetInnerExceptionMessage(ex)}";
+                var error = GetInnerExceptionMessageAndStackTrace(ex);
+                var fullText = $"Nimator itself failed: {error.Item1}";
+
+                _logger.Error(fullText, ex);
+                _logger.Error(error.Item2, ex);
 
                 return new CriticalNimatorResult("Nimator (or one of its layers) itself failed.", fullText);
             }
@@ -55,7 +65,7 @@ namespace Nimator
         private NimatorResult RunUnsafe()
         {
             var nimatorResult = new NimatorResult(AmbientTimeProvider.GetNow());
-            
+
             foreach (var layer in this.layers)
             {
                 var layerResult = layer.Run();
@@ -78,38 +88,46 @@ namespace Nimator
             return nimatorResult;
         }
 
-        private string GetInnerExceptionMessage(Exception ex)
+        private Tuple<string, string> GetInnerExceptionMessageAndStackTrace(Exception ex)
         {
+            string message = String.Empty;
+            string stackTrace = String.Empty;
+
             if (ex == null)
             {
-                return string.Empty;
+                return new Tuple<string, string>(message, stackTrace);
             }
 
-            string message = ex.Message + Environment.NewLine;
+            message = ex.Message + Environment.NewLine;
 
             if (ex.InnerException != null)
             {
-                message += '\t' + GetInnerExceptionMessage(ex.InnerException);
+                var innerResult = GetInnerExceptionMessageAndStackTrace(ex.InnerException);
+
+                message += '\t' + innerResult.Item1;
+                stackTrace = innerResult.Item2;
             }
 
-            return message;
+            return new Tuple<string, string>(message, stackTrace); ;
         }
 
-        private string GetAggregateExceptionMessage(AggregateException ex)
+        private Tuple<string, string> GetAggregateExceptionMessageAndStackTrace(AggregateException ex)
         {
+            string message = String.Empty;
+            string stackTrace = String.Empty;
+
             if (ex == null)
             {
-                return string.Empty;
+                return new Tuple<string, string>(message, stackTrace);
             }
-
-            string message = "";
 
             foreach (var innerEx in ex.InnerExceptions)
             {
                 message += '\t' + innerEx.Message;
+                stackTrace = innerEx.StackTrace;
             }
 
-            return message;
+            return new Tuple<string, string>(message, stackTrace); ;
         }
 
         /// <inheritDoc/>
