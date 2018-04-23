@@ -1,4 +1,4 @@
-﻿using Nimator.Notifiers;
+﻿using Nimator.Notifiers.Opsgenie;
 
 namespace Nimator.Settings
 {
@@ -25,7 +25,11 @@ namespace Nimator.Settings
         /// <inheritDoc/>
         public override INotifier ToNotifier()
         {
-            return new OpsGenieNotifier(this);
+            // A small composition root for the Opsgenie
+            var opsgenieClient = new OpsGenieApiClient(new HttpRequestHandler(), this);
+            var alertConverter = new OpsGenieAlertConverter(this);
+
+            return new OpsGenieNotifier(opsgenieClient, alertConverter, this);
         }
 
         /// <summary>

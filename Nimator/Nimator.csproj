@@ -50,6 +50,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,13 +78,22 @@
     <Compile Include="NotificationLevel.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Notifiers\ConsoleNotifier.cs" />
+    <Compile Include="Notifiers\Opsgenie\HttpRequestHandler.cs" />
+    <Compile Include="Notifiers\Opsgenie\IHttpRequestHandler.cs" />
+    <Compile Include="Notifiers\Opsgenie\IOpsGenieAlertConverter.cs" />
+    <Compile Include="Notifiers\Opsgenie\IOpsGenieApiClient.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieAlertConverter.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieAlertRequest.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieApiClient.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieNotifier.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieResponder.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieResponderType.cs" />
     <Compile Include="Settings\ConsoleSettings.cs" />
     <Compile Include="INotifier.cs" />
     <Compile Include="NotificationCommunicationException.cs" />
     <Compile Include="NotificationException.cs" />
     <Compile Include="Notifiers\OpsGenieAlertCreateRequest.cs" />
     <Compile Include="Notifiers\OpsGenieHeartbeatRequest.cs" />
-    <Compile Include="Notifiers\OpsGenieNotifier.cs" />
     <Compile Include="Notifiers\OpsGenieRequest.cs" />
     <Compile Include="Settings\LayerSettings.cs" />
     <Compile Include="Settings\NimatorSettings.cs" />

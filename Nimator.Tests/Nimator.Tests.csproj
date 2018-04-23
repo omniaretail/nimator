@@ -82,7 +82,10 @@
     <Compile Include="NotificationExceptionTests.cs" />
     <Compile Include="Notifiers\ConsoleNotifierTests.cs" />
     <Compile Include="Notifiers\NotifierTests.cs" />
-    <Compile Include="Notifiers\OpsGenieNotifierTests.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieAlertConverterTests.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieAlertRequestTests.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieApiClientTests.cs" />
+    <Compile Include="Notifiers\Opsgenie\OpsGenieNotifierTests.cs" />
     <Compile Include="Notifiers\SlackNotifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ConsoleSettingsTests.cs" />
@@ -94,7 +97,9 @@
     <Compile Include="Util\WebExceptionExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nimator\Nimator.csproj">
