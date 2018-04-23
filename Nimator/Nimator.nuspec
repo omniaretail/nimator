@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Nimator</id>
-    <version>0.2.0</version>
+    <version>0.2.5</version>
     <authors>Omnia Retail</authors>
     <owners>Omnia Retail</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -12,7 +12,7 @@
     <summary>Nimator is a light-weight framework for monitoring your systems, allowing you to write custom system-checks in C#.</summary>
     <description>Nimator is a light-weight framework for monitoring your systems, and getting notified through various channels. Note that this is a very early version, and most of the "documentation" would actually be the source code. See GitHub (the Project Site) for details on the roadmap for documentation as well as new features.</description>
     <releaseNotes>This is an early version of Nimator. It is ready to be used (and *is* being used in production by some), but it's probably still wise to treat it as alpha software. Until version 1.0 has been reached there will likely be breaking changes between versions more often.</releaseNotes>
-    <copyright>Copyright ©2016 Nimator Authors</copyright>
+    <copyright>Copyright ©2018 Nimator Authors</copyright>
     <tags>nimator monitoring monitor instrumentation logging log health diagnostics</tags>
   </metadata>
 </package>
