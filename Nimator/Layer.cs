@@ -24,16 +24,21 @@ namespace Nimator
 
         public ILayerResult Run()
         {
-            var tasks = checks.Select(GetResult).ToArray();
-            var checkResults = Task.WhenAll(tasks).Result;
+            return Task.Run(async () => await RunAsync()).Result;
+        }
+
+        private async Task<LayerResult> RunAsync()
+        {
+            var tasks = checks.Select(GetResult);
+            var checkResults = await Task.WhenAll(tasks);
             return new LayerResult(this.Name, checkResults);
         }
 
-        private Task<ICheckResult> GetResult(ICheck check)
+        private async Task<ICheckResult> GetResult(ICheck check)
         {
             try
             {
-                return check.RunAsync();
+                return await check.RunAsync();
             }
             catch (Exception ex)
             {
@@ -43,7 +48,7 @@ namespace Nimator
                     ex.ToString()
                 );
 
-                return Task.FromResult<ICheckResult>(result);
+                return await Task.FromResult<ICheckResult>(result);
             }
         }
     }
