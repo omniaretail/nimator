@@ -22,11 +22,13 @@ namespace Nimator.Notifiers.DataDog
 
         protected virtual void NotifyDataDog(DataDogEvent dataDogEvent)
         {
-            DogStatsd.Increment(statName: dataDogEvent.CheckName);
+            var tags = new[] { dataDogEvent.CheckName, dataDogEvent.LayerName };
+
+            DogStatsd.Increment(statName: dataDogEvent.StatName, tags: tags);
             DogStatsd.Event(title: dataDogEvent.CheckName,
                 text: dataDogEvent.Message,
-                sourceType: dataDogEvent.LayerName,
-                priority: dataDogEvent.Level);
+                alertType: dataDogEvent.AlertType.ToString(),
+                tags: tags);
         }
     }
 }

@@ -8,9 +8,11 @@ namespace Nimator.Notifiers.DataDog
 {
     class DataDogEvent
     {
-        public string Level { get; set; }
+        public string StatName { get; set; }
         public string LayerName { get; set; }
         public string CheckName { get; set; }
         public string Message { get; set; }
+
+        public AlertType AlertType { get; internal set; }
     }
 }

@@ -76,8 +76,7 @@ namespace Nimator.Notifiers.DataDog
             var message = "error message";
             var checkResults = new List<CheckResult>
             {
-                new CheckResult("C1", NotificationLevel.Okay),
-                new CheckResult("C2", NotificationLevel.Error, message)
+                new CheckResult("C1", NotificationLevel.Error, message)
             };
             result.LayerResults.Add(new LayerResult("L1", checkResults));
             var sut = GetSut();
@@ -87,23 +86,25 @@ namespace Nimator.Notifiers.DataDog
 
             // Assert
             sut.Events.Count.ShouldBe(1);
-            sut.Events[0].CheckName.ShouldBe("C2");
+            sut.Events[0].StatName.ShouldBe(DataDogEventConverter.MetricsName);
+            sut.Events[0].CheckName.ShouldBe("C1");
             sut.Events[0].LayerName.ShouldBe("L1");
-            sut.Events[0].Level.ShouldBe("Error");
+            sut.Events[0].AlertType.ShouldBe(AlertType.Error);
             sut.Events[0].Message.ShouldContain(message);
         }
 
         [Test]
-        public void Notify_NimatorResultErrorWithErrorAndCritialChecks_DataDogNotifyTwoEvents()
+        public void Notify_NimatorResultErrorWithSeveralErrorChecks_DataDogNotifyErrorsOnly()
         {
             // Arrange
             var result = new NimatorResult(DateTime.Now);
-            var message = "error message";
-            var message2 = "error message2";
+            var messageError = "error message";
+            var messageCritical = "critical message";
             var checkResults = new List<CheckResult>
             {
-                new CheckResult("C1", NotificationLevel.Critical, message),
-                new CheckResult("C2", NotificationLevel.Error, message2)
+                new CheckResult("C1", NotificationLevel.Error, messageError),
+                new CheckResult("C2", NotificationLevel.Okay),
+                new CheckResult("C3", NotificationLevel.Critical, messageCritical)
             };
             result.LayerResults.Add(new LayerResult("L1", checkResults));
             var sut = GetSut();
@@ -113,19 +114,58 @@ namespace Nimator.Notifiers.DataDog
 
             // Assert
             sut.Events.Count.ShouldBe(2);
+            sut.Events[0].StatName.ShouldBe(DataDogEventConverter.MetricsName);
             sut.Events[0].CheckName.ShouldBe("C1");
             sut.Events[0].LayerName.ShouldBe("L1");
-            sut.Events[0].Level.ShouldBe("Critical");
-            sut.Events[0].Message.ShouldContain(message);
-            sut.Events[1].CheckName.ShouldBe("C2");
+            sut.Events[0].AlertType.ShouldBe(AlertType.Error);
+            sut.Events[0].Message.ShouldContain(messageError);
+            sut.Events[1].StatName.ShouldBe(DataDogEventConverter.MetricsName);
+            sut.Events[1].CheckName.ShouldBe("C3");
             sut.Events[1].LayerName.ShouldBe("L1");
-            sut.Events[1].Level.ShouldBe("Error");
-            sut.Events[1].Message.ShouldContain(message2);
+            sut.Events[1].AlertType.ShouldBe(AlertType.Error);
+            sut.Events[1].Message.ShouldContain(messageCritical);
+        }
+
+        [Test]
+        public void Notify_NimatorResultErrorWithAllTypeOfChecksAndMinThreshold_DataDogNotifyAll()
+        {
+            // Arrange
+            var result = new NimatorResult(DateTime.Now);
+            var message = "error message";
+            var checkResults = new List<CheckResult>
+            {
+                new CheckResult("C1", NotificationLevel.Critical, message),
+                new CheckResult("C2", NotificationLevel.Error, message),
+                new CheckResult("C3", NotificationLevel.Warning, message),
+                new CheckResult("C4", NotificationLevel.Okay, message)
+            };
+            result.LayerResults.Add(new LayerResult("L1", checkResults));
+
+            var settings = new DataDogSettings
+            {
+                Threshold = NotificationLevel.Okay
+            };
+            var sut = GetSut(settings);
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Events.Count.ShouldBe(4);
+            sut.Events[0].AlertType.ShouldBe(AlertType.Error);
+            sut.Events[1].AlertType.ShouldBe(AlertType.Error);
+            sut.Events[2].AlertType.ShouldBe(AlertType.Warning);
+            sut.Events[3].AlertType.ShouldBe(AlertType.Info);
         }
 
         private DataDogNotifierTestDouble GetSut()
         {
-            var dataDogEventConverter = new DataDogEventConverter(settings);
+            return GetSut(settings);
+        }
+
+        private DataDogNotifierTestDouble GetSut(DataDogSettings dataDogSettings)
+        {
+            var dataDogEventConverter = new DataDogEventConverter(dataDogSettings);
             return new DataDogNotifierTestDouble(dataDogEventConverter);
         }
 

@@ -10,6 +10,8 @@ namespace Nimator.Notifiers.DataDog
 {
     class DataDogEventConverter : IDataDogEventConverter
     {
+        public const string MetricsName = "Checks";
+
         private DataDogSettings settings;
 
         public DataDogEventConverter(DataDogSettings settings)
@@ -25,13 +27,10 @@ namespace Nimator.Notifiers.DataDog
 
             if (!result.LayerResults.Any())
             {
-                yield return new DataDogEvent
-                {
-                    Level = result.Level.ToString(),
-                    LayerName = result.GetFirstFailedLayerName(),
-                    CheckName = result.GetFirstFailedCheckName(),
-                    Message = GetMessage(result.Message, result.RenderPlainText(settings.Threshold))
-                };
+                yield return ConvertToDataDogEvent(result.Level, 
+                    result.GetFirstFailedLayerName(), 
+                    result.GetFirstFailedCheckName(), 
+                    result.Message, result.RenderPlainText(settings.Threshold));
                 yield break;
             }
 
@@ -40,21 +39,42 @@ namespace Nimator.Notifiers.DataDog
                 var layerName = layerResult.LayerName;
                 foreach (var checkResult in layerResult.CheckResults.Where(c => c?.Level >= settings.Threshold))
                 {
-                    yield return new DataDogEvent
-                    {
-                        Level = checkResult.Level.ToString(),
-                        LayerName = layerName,
-                        CheckName = checkResult.CheckName,
-                        Message = GetMessage(checkResult.RenderPlainText())
-                    };
+                    yield return ConvertToDataDogEvent(checkResult.Level, 
+                        layerName, 
+                        checkResult.CheckName, 
+                        checkResult.RenderPlainText());
                 }
             }
         }
 
-        private string GetMessage(params string[] messages)
+        private DataDogEvent ConvertToDataDogEvent(NotificationLevel level, string layerName, string checkName, params string[] messages)
         {
             var message = string.Join(Environment.NewLine, messages);
-            return message.Truncate(settings.MessageLengthLimit);
+            message = message.Truncate(settings.MessageLengthLimit);
+
+            return new DataDogEvent
+            {
+                StatName = MetricsName,
+                AlertType = ConvertToAlertType(level),
+                LayerName = layerName,
+                CheckName = checkName,
+                Message = message
+            };
+        }
+
+        private AlertType ConvertToAlertType(NotificationLevel level)
+        {
+            switch (level)
+            {
+                case NotificationLevel.Critical:
+                case NotificationLevel.Error:
+                    return AlertType.Error;
+                case NotificationLevel.Warning:
+                    return AlertType.Warning;
+                case NotificationLevel.Okay:
+                default:
+                    return AlertType.Info;
+            }
         }
     }
 }
