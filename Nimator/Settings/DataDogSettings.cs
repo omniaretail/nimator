@@ -1,4 +1,5 @@
 ﻿using Nimator.Notifiers;
+using Nimator.Notifiers.DataDog;
 using StatsdClient;
 
 namespace Nimator.Settings
@@ -9,22 +10,22 @@ namespace Nimator.Settings
     public class DataDogSettings : NotifierSettings
     {
         /// <summary>
-        /// 
+        /// Prefix to be prepended to DataDog events.
         /// </summary>
         public string Prefix { get; set; }
 
         /// <summary>
-        /// 
+        /// The server name of DataDog
         /// </summary>
         public string StatsdServerName { get; set; }
 
         /// <summary>
-        /// 
+        /// The port of DataDog
         /// </summary>
         public int StatsdPort { get; set; } = 8125;
 
         /// <summary>
-        /// 
+        /// The limit of maximum characters number in DataDog message
         /// </summary>
         public int MessageLengthLimit { get; set; } = 5000;
 
@@ -33,7 +34,8 @@ namespace Nimator.Settings
         {
             CongifureStatsd();
 
-            return new DataDogNotifier(this);
+            var dataDogConverter = new DataDogEventConverter(this);
+            return new DataDogNotifier(dataDogConverter);
         }
 
         /// <summary>

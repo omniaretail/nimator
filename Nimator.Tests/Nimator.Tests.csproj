@@ -58,6 +58,9 @@
       <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Shouldly, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.3.0.0\lib\net451\Shouldly.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -81,6 +84,7 @@
     <Compile Include="NotificationCommunicationExceptionTests.cs" />
     <Compile Include="NotificationExceptionTests.cs" />
     <Compile Include="Notifiers\ConsoleNotifierTests.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogNotifierTests.cs" />
     <Compile Include="Notifiers\NotifierTests.cs" />
     <Compile Include="Notifiers\Opsgenie\OpsGenieAlertConverterTests.cs" />
     <Compile Include="Notifiers\Opsgenie\OpsGenieAlertRequestTests.cs" />

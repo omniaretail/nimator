@@ -81,7 +81,10 @@
     <Compile Include="NotificationLevel.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Notifiers\ConsoleNotifier.cs" />
-    <Compile Include="Notifiers\DataDogNotifier.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogEvent.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogEventConverter.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogNotifier.cs" />
+    <Compile Include="Notifiers\DataDog\IDataDogEventConverter.cs" />
     <Compile Include="Notifiers\Opsgenie\HttpRequestHandler.cs" />
     <Compile Include="Notifiers\Opsgenie\IHttpRequestHandler.cs" />
     <Compile Include="Notifiers\Opsgenie\IOpsGenieAlertConverter.cs" />
