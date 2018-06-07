@@ -55,6 +55,7 @@ namespace Nimator.Notifiers.DataDog
             return new DataDogEvent
             {
                 StatName = MetricsName,
+                Level = level.ToString(),
                 AlertType = ConvertToAlertType(level),
                 LayerName = layerName,
                 CheckName = checkName,
@@ -62,18 +63,18 @@ namespace Nimator.Notifiers.DataDog
             };
         }
 
-        private AlertType ConvertToAlertType(NotificationLevel level)
+        private string ConvertToAlertType(NotificationLevel level)
         {
             switch (level)
             {
                 case NotificationLevel.Critical:
                 case NotificationLevel.Error:
-                    return AlertType.Error;
+                    return "Error";
                 case NotificationLevel.Warning:
-                    return AlertType.Warning;
+                    return "Warning";
                 case NotificationLevel.Okay:
                 default:
-                    return AlertType.Info;
+                    return "Info";
             }
         }
     }

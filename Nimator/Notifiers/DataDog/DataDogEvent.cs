@@ -13,6 +13,7 @@ namespace Nimator.Notifiers.DataDog
         public string CheckName { get; set; }
         public string Message { get; set; }
 
-        public AlertType AlertType { get; internal set; }
+        public string AlertType { get; set; }
+        public string Level { get; set; }
     }
 }
