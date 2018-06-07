@@ -32,7 +32,7 @@ namespace Nimator.Settings
         /// <inheritDoc/>
         public override INotifier ToNotifier()
         {
-            CongifureStatsd();
+            ConfigureStatsd();
 
             var dataDogConverter = new DataDogEventConverter(this);
             return new DataDogNotifier(dataDogConverter);
@@ -53,7 +53,7 @@ namespace Nimator.Settings
             };
         }
 
-        private void CongifureStatsd()
+        private void ConfigureStatsd()
         {
             DogStatsd.Configure(new StatsdConfig()
             {

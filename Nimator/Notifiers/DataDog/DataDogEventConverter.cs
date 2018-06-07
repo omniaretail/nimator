@@ -12,7 +12,7 @@ namespace Nimator.Notifiers.DataDog
     {
         public const string MetricsName = "Checks";
 
-        private DataDogSettings settings;
+        private readonly DataDogSettings settings;
 
         public DataDogEventConverter(DataDogSettings settings)
         {
@@ -34,10 +34,14 @@ namespace Nimator.Notifiers.DataDog
                 yield break;
             }
 
-            foreach (var layerResult in result.LayerResults.Where(l => l?.Level >= settings.Threshold))
+            var layerResults = result.LayerResults.Where(l => l?.Level >= settings.Threshold);
+
+            foreach (var layerResult in layerResults)
             {
                 var layerName = layerResult.LayerName;
-                foreach (var checkResult in layerResult.CheckResults.Where(c => c?.Level >= settings.Threshold))
+                var checkResults = layerResult.CheckResults.Where(c => c?.Level >= settings.Threshold);
+
+                foreach (var checkResult in checkResults)
                 {
                     yield return ConvertToDataDogEvent(checkResult.Level, 
                         layerName, 
