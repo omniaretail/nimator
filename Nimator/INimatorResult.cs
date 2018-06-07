@@ -44,6 +44,11 @@ namespace Nimator
         string[] GetFailingLayerNames();
 
         /// <summary>
+        /// Get the Name of the first <see cref="ICheck"/> that was considered beyond the <see cref="NotificationLevel"/> threshold.
+        /// </summary>
+        string GetFirstFailedCheckName();
+
+        /// <summary>
         /// Get the Names of all failing <see cref="ICheck"/>s inside the individual <see cref="ILayer"/>s that were checked.
         /// </summary>
         string[] GetFailingCheckNames();

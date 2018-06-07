@@ -42,9 +42,14 @@ namespace Nimator
             return new [] { GetFirstFailedLayerName() };
         }
 
+        public string GetFirstFailedCheckName()
+        {
+            return "UnknownCheck";
+        }
+
         public string[] GetFailingCheckNames()
         {
-            return new[] { "UnknownCheck" };
+            return new[] { GetFirstFailedCheckName() };
         }
         
         public string RenderPlainText(NotificationLevel minLevelForDetails)

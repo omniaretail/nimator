@@ -48,6 +48,9 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StatsdClient, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DogStatsD-CSharp-Client.3.1.0\lib\net451\StatsdClient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -78,6 +81,11 @@
     <Compile Include="NotificationLevel.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Notifiers\ConsoleNotifier.cs" />
+    <Compile Include="Notifiers\DataDog\AlertType.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogEvent.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogEventConverter.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogNotifier.cs" />
+    <Compile Include="Notifiers\DataDog\IDataDogEventConverter.cs" />
     <Compile Include="Notifiers\Opsgenie\HttpRequestHandler.cs" />
     <Compile Include="Notifiers\Opsgenie\IHttpRequestHandler.cs" />
     <Compile Include="Notifiers\Opsgenie\IOpsGenieAlertConverter.cs" />
@@ -95,6 +103,7 @@
     <Compile Include="Notifiers\OpsGenieAlertCreateRequest.cs" />
     <Compile Include="Notifiers\OpsGenieHeartbeatRequest.cs" />
     <Compile Include="Notifiers\OpsGenieRequest.cs" />
+    <Compile Include="Settings\DataDogSettings.cs" />
     <Compile Include="Settings\LayerSettings.cs" />
     <Compile Include="Settings\NimatorSettings.cs" />
     <Compile Include="Settings\NotifierSettings.cs" />

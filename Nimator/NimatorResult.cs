@@ -86,8 +86,16 @@ namespace Nimator
             return LayerResults
                 .Where(l => l.Level >= ThresholdLevel)
                 .Select(l => l.LayerName)
-                .FirstOrDefault()
-                ?? string.Empty;
+                .FirstOrDefault() ?? string.Empty;
+        }
+
+        public string GetFirstFailedCheckName()
+        {
+            return LayerResults
+                .SelectMany(l => l.CheckResults)
+                .Where(c => c.Level >= ThresholdLevel)
+                .Select(c => c.CheckName)
+                .FirstOrDefault() ?? string.Empty;
         }
 
         public string RenderPlainText(NotificationLevel minLevelForDetails)

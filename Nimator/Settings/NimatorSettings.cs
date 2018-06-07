@@ -60,6 +60,7 @@ namespace Nimator.Settings
                     ConsoleSettings.GetExample(),
                     OpsGenieSettings.GetExample(),
                     SlackSettings.GetExample(),
+                    DataDogSettings.GetExample()
                 },
                 Layers = new LayerSettings[]
                 {

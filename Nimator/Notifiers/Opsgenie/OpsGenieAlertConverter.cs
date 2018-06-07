@@ -1,5 +1,6 @@
 ﻿using System;
 using Nimator.Settings;
+using Nimator.Util;
 
 namespace Nimator.Notifiers.Opsgenie
 {
@@ -31,14 +32,14 @@ namespace Nimator.Notifiers.Opsgenie
 
             var message = string.IsNullOrEmpty(result.Message) ?
                 "Unknown message" :
-                Truncate(result.Message, MaxOpsgenieMessageLength);
+                result.Message.Truncate(MaxOpsgenieMessageLength);
 
             var failingLayerName = result.GetFirstFailedLayerName() ?? "UnknownLayer";
             
             return new OpsGenieAlertRequest(message)
             {                
                 Alias = "nimator-failure",
-                Description = Truncate(result.RenderPlainText(settings.Threshold), MaxOpsgenieDescriptionLength),                
+                Description = result.RenderPlainText(settings.Threshold).Truncate(MaxOpsgenieDescriptionLength),                
                 Responders = new[]
                 {
                     new OpsGenieResponder
@@ -47,16 +48,8 @@ namespace Nimator.Notifiers.Opsgenie
                         Name = settings.TeamName
                     }
                 },
-                Tags = new[] { "Nimator", Truncate(failingLayerName, MaxOpsgenieTagLength) }
+                Tags = new[] { "Nimator", failingLayerName.Truncate(MaxOpsgenieTagLength) }
             };
-        }
-
-        private string Truncate(string value, int maxLength)
-        {
-            if (maxLength < 0) throw new ArgumentOutOfRangeException(nameof(maxLength));
-            if (string.IsNullOrEmpty(value)) return value;
-
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
     }
 }
