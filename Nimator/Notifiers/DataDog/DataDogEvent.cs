@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nimator.Notifiers.DataDog
 {
-    class DataDogEvent
+    internal class DataDogEvent
     {
         // alert type has to be lower case, otherwise not interpreted correctly
         // (DataDog agent v.6.x)
@@ -17,7 +17,7 @@ namespace Nimator.Notifiers.DataDog
         public const string AlertTypeSuccess = "success";
         public const string AlertTypeInfo = "info";
 
-        private IDictionary<string, string> tags = new Dictionary<string, string>();
+        private readonly IDictionary<string, string> tags = new Dictionary<string, string>();
 
         public string StatName { get; set; }
 
