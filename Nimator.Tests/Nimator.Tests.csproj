@@ -84,6 +84,7 @@
     <Compile Include="NotificationCommunicationExceptionTests.cs" />
     <Compile Include="NotificationExceptionTests.cs" />
     <Compile Include="Notifiers\ConsoleNotifierTests.cs" />
+    <Compile Include="Notifiers\DataDog\DataDogEventTests.cs" />
     <Compile Include="Notifiers\DataDog\DataDogNotifierTests.cs" />
     <Compile Include="Notifiers\NotifierTests.cs" />
     <Compile Include="Notifiers\Opsgenie\OpsGenieAlertConverterTests.cs" />
