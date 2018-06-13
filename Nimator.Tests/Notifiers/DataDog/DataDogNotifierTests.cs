@@ -8,6 +8,8 @@ namespace Nimator.Notifiers.DataDog
 {
     public class DataDogNotifierTests
     {
+        private const string AlertTypeComparisonErrorMessage = "Alert type didn't match expected value."+
+                                                               " Alert type has to be lower case, otherwise not interpreted correctly (DataDog agent v.6.x)";
         private DataDogSettings settings;
 
         [SetUp]
@@ -69,7 +71,7 @@ namespace Nimator.Notifiers.DataDog
         }
 
         [Test]
-        public void Notify_NimatorResultErrorWithOneErrorCheck_DataDogNotifyOneEvent()
+        public void Notify_NimatorResultErrorWithOneErrorCheck_DataDogNotifyOneEventWithTags()
         {
             // Arrange
             var result = new NimatorResult(DateTime.Now);
@@ -87,11 +89,14 @@ namespace Nimator.Notifiers.DataDog
             // Assert
             sut.Events.Count.ShouldBe(1);
             sut.Events[0].StatName.ShouldBe(DataDogEventConverter.MetricsName);
-            sut.Events[0].CheckName.ShouldBe("C1");
-            sut.Events[0].LayerName.ShouldBe("L1");
-            sut.Events[0].AlertType.ShouldBe("Error");
-            sut.Events[0].Level.ShouldBe("Error");
+            sut.Events[0].Title.ShouldBe("C1");
+            sut.Events[0].AlertType.ShouldBe(AlertType.Error, AlertTypeComparisonErrorMessage);
             sut.Events[0].Message.ShouldContain(message);
+            var tags = sut.Events[0].Tags;
+            tags.ShouldNotBeNull();
+            tags.ShouldContain("check:c1");
+            tags.ShouldContain("layer:l1");
+            tags.ShouldContain("level:error");
         }
 
         [Test]
@@ -116,15 +121,12 @@ namespace Nimator.Notifiers.DataDog
             // Assert
             sut.Events.Count.ShouldBe(2);
             sut.Events[0].StatName.ShouldBe(DataDogEventConverter.MetricsName);
-            sut.Events[0].CheckName.ShouldBe("C1");
-            sut.Events[0].LayerName.ShouldBe("L1");
-            sut.Events[0].AlertType.ShouldBe("Error");
-            sut.Events[0].Level.ShouldBe("Error");
+            sut.Events[0].Title.ShouldBe("C1");
+            sut.Events[0].AlertType.ShouldBe(AlertType.Error, AlertTypeComparisonErrorMessage);
             sut.Events[0].Message.ShouldContain(messageError);
             sut.Events[1].StatName.ShouldBe(DataDogEventConverter.MetricsName);
-            sut.Events[1].CheckName.ShouldBe("C3");
-            sut.Events[1].LayerName.ShouldBe("L1");
-            sut.Events[1].Level.ShouldBe("Critical");
+            sut.Events[1].Title.ShouldBe("C3");
+            sut.Events[1].AlertType.ShouldBe(AlertType.Error, AlertTypeComparisonErrorMessage);
             sut.Events[1].Message.ShouldContain(messageCritical);
         }
 
@@ -154,10 +156,10 @@ namespace Nimator.Notifiers.DataDog
 
             // Assert
             sut.Events.Count.ShouldBe(4);
-            sut.Events[0].AlertType.ShouldBe("Error");
-            sut.Events[1].AlertType.ShouldBe("Error");
-            sut.Events[2].AlertType.ShouldBe("Warning");
-            sut.Events[3].AlertType.ShouldBe("Info");
+            sut.Events[0].AlertType.ShouldBe(AlertType.Error, AlertTypeComparisonErrorMessage);
+            sut.Events[1].AlertType.ShouldBe(AlertType.Error, AlertTypeComparisonErrorMessage);
+            sut.Events[2].AlertType.ShouldBe(AlertType.Warning, AlertTypeComparisonErrorMessage);
+            sut.Events[3].AlertType.ShouldBe(AlertType.Info, AlertTypeComparisonErrorMessage);
         }
 
         private DataDogNotifierTestDouble GetSut()

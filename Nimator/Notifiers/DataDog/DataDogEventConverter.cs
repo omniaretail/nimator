@@ -53,18 +53,22 @@ namespace Nimator.Notifiers.DataDog
 
         private DataDogEvent ConvertToDataDogEvent(NotificationLevel level, string layerName, string checkName, params string[] messages)
         {
-            var message = string.Join(Environment.NewLine, messages);
-            message = message.Truncate(settings.MessageLengthLimit);
-
-            return new DataDogEvent
+            var dataDogEvent = new DataDogEvent
             {
                 StatName = MetricsName,
-                Level = level.ToString(),
-                AlertType = ConvertToAlertType(level),
-                LayerName = layerName,
-                CheckName = checkName,
-                Message = message
+                Title = checkName,
+                AlertType = ConvertToAlertType(level)
             };
+
+            var message = string.Join(Environment.NewLine, messages);
+            message = message.Truncate(settings.MessageLengthLimit);
+            dataDogEvent.Message = message;
+
+            dataDogEvent.AddTag("check", checkName);
+            dataDogEvent.AddTag("layer", layerName);
+            dataDogEvent.AddTag("level", level.ToString());
+
+            return dataDogEvent;
         }
 
         private string ConvertToAlertType(NotificationLevel level)
@@ -73,12 +77,12 @@ namespace Nimator.Notifiers.DataDog
             {
                 case NotificationLevel.Critical:
                 case NotificationLevel.Error:
-                    return "Error";
+                    return AlertType.Error;
                 case NotificationLevel.Warning:
-                    return "Warning";
+                    return AlertType.Warning;
                 case NotificationLevel.Okay:
                 default:
-                    return "Info";
+                    return AlertType.Info;
             }
         }
     }
