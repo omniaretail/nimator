@@ -77,12 +77,12 @@ namespace Nimator.Notifiers.DataDog
             {
                 case NotificationLevel.Critical:
                 case NotificationLevel.Error:
-                    return DataDogEvent.AlertTypeError;
+                    return AlertType.Error;
                 case NotificationLevel.Warning:
-                    return DataDogEvent.AlertTypeWarning;
+                    return AlertType.Warning;
                 case NotificationLevel.Okay:
                 default:
-                    return DataDogEvent.AlertTypeInfo;
+                    return AlertType.Info;
             }
         }
     }

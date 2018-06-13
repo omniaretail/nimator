@@ -20,32 +20,42 @@ namespace Nimator.Notifiers.DataDog
         [Test]
         public void AddTag_NoTagAdded_TagsNull()
         {
+            // Arrange, Act
             var tags = GetSut().Tags;
 
+            // Assert
             tags.ShouldBeNull();
         }
 
         [Test]
-        public void AddTag_TagAdded_TagsContainsTagFormattedAndLowercase()
+        public void Tags_TagAdded_ContainsTagFormattedAndLowercase()
         {
+            // Arrange
             var sut = GetSut();
             sut.AddTag("Name", "VALUE");
+
+            // Act
             var tags = sut.Tags;
 
+            // Assert
             tags.ShouldNotBeNull();
             tags.Length.ShouldBe(1);
             tags[0].ShouldBe("name:value");
         }
 
         [Test]
-        public void AddTag_DuplicateTagsAdded_TagsContainsTagsOverwritten()
+        public void Tags_DuplicateTagsAdded_ContainsTagsOverwritten()
         {
+            // Arrange
             var sut = GetSut();
             sut.AddTag("Name", "VALUE");
             sut.AddTag("Name", "VALUE2");
             sut.AddTag("Name2", "VALUE3");
+
+            // Act
             var tags = sut.Tags;
 
+            // Assert
             tags.ShouldNotBeNull();
             tags.Length.ShouldBe(2);
             tags[0].ShouldBe("name:value2");

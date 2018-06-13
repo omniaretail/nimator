@@ -10,13 +10,6 @@ namespace Nimator.Notifiers.DataDog
 {
     internal class DataDogEvent
     {
-        // alert type has to be lower case, otherwise not interpreted correctly
-        // (DataDog agent v.6.x)
-        public const string AlertTypeError = "error";
-        public const string AlertTypeWarning = "warning";
-        public const string AlertTypeSuccess = "success";
-        public const string AlertTypeInfo = "info";
-
         private readonly IDictionary<string, string> tags = new Dictionary<string, string>();
 
         public string StatName { get; set; }
