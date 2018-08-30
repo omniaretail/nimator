@@ -16,11 +16,11 @@ namespace Nimator.Notifiers.DataDog
         {
             foreach(var dataDogEvent in dataDogEventConverter.Convert(result))
             {
-                NotifyDataDog(dataDogEvent);
+                NotifyDataDogEvent(dataDogEvent);
             }
         }
 
-        protected virtual void NotifyDataDog(DataDogEvent dataDogEvent)
+        protected virtual void NotifyDataDogEvent(DataDogEvent dataDogEvent)
         {
             DogStatsd.Increment(statName: dataDogEvent.StatName, tags: dataDogEvent.Tags);
             DogStatsd.Event(title: dataDogEvent.Title,

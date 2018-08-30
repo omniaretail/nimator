@@ -181,7 +181,7 @@ namespace Nimator.Notifiers.DataDog
             {
             }
 
-            protected override void NotifyDataDog(DataDogEvent dataDogEvent)
+            protected override void NotifyDataDogEvent(DataDogEvent dataDogEvent)
             {
                 Events.Add(dataDogEvent);
             }
