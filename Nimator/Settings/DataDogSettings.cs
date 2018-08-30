@@ -35,7 +35,7 @@ namespace Nimator.Settings
             ConfigureStatsd();
 
             var dataDogConverter = new DataDogEventConverter(this);
-            return new DataDogNotifier(dataDogConverter);
+            return new DataDogNotifier(dataDogConverter, this);
         }
 
         /// <summary>

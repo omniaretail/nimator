@@ -21,10 +21,6 @@ namespace Nimator.Notifiers.DataDog
 
         public IEnumerable<DataDogEvent> Convert(INimatorResult result)
         {
-            if (result == null)  throw new ArgumentNullException(nameof(result));
-
-            if (result.Level < settings.Threshold) yield break;
-
             if (!result.LayerResults.Any())
             {
                 yield return ConvertToDataDogEvent(result.Level, 

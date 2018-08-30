@@ -170,14 +170,14 @@ namespace Nimator.Notifiers.DataDog
         private DataDogNotifierTestDouble GetSut(DataDogSettings dataDogSettings)
         {
             var dataDogEventConverter = new DataDogEventConverter(dataDogSettings);
-            return new DataDogNotifierTestDouble(dataDogEventConverter);
+            return new DataDogNotifierTestDouble(dataDogEventConverter, dataDogSettings);
         }
 
         private class DataDogNotifierTestDouble : DataDogNotifier
         {
             public List<DataDogEvent> Events = new List<DataDogEvent>();
 
-            public DataDogNotifierTestDouble(IDataDogEventConverter dataDogEventConverter) : base(dataDogEventConverter)
+            public DataDogNotifierTestDouble(IDataDogEventConverter dataDogEventConverter, DataDogSettings settings) : base(dataDogEventConverter, settings)
             {
             }
 
