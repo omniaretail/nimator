@@ -162,6 +162,129 @@ namespace Nimator.Notifiers.DataDog
             sut.Events[3].AlertType.ShouldBe(AlertType.Info, AlertTypeComparisonErrorMessage);
         }
 
+        [Test]
+        public void MetricIsHealthy_ShouldBeTrue_WhenCheckHasNotificationLevelOkay()
+        {
+            var result = new NimatorResult(DateTime.Now);
+            List<ICheckResult> checkResults = new List<ICheckResult>();
+            checkResults.Add(new CheckResult("BasicLogin", NotificationLevel.Okay));
+            result.LayerResults.Add(new LayerResult(layerName: "Infrastructure", checkResults: checkResults));
+
+            var sut = GetSut();
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Metrics.Count.ShouldBe(2);
+            sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".isHealthy") &&
+                                               metric.Value.Equals("1"));
+        }
+
+        [Test]
+        [TestCase(NotificationLevel.Warning)]
+        [TestCase(NotificationLevel.Error)]
+        [TestCase(NotificationLevel.Critical)]
+        public void MetricIsHealthy_ShouldBeFalse_WhenCheckHasNotificationLevelNotOkay_(NotificationLevel notificationLevel)
+        {
+            var result = new NimatorResult(DateTime.Now);
+            List<ICheckResult> checkResults = new List<ICheckResult>();
+            checkResults.Add(new CheckResult("BasicLogin", notificationLevel));
+            result.LayerResults.Add(new LayerResult(layerName: "Infrastructure", checkResults: checkResults));
+
+            var sut = GetSut();
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Metrics.Count.ShouldBe(2);
+            sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".isHealthy") &&
+                                                metric.Value.Equals("0"));
+        }
+
+        [Test]
+        public void MetricIsHealthy_ShouldHaveCorrectlyFormattedExpectedStatName()
+        {
+            var result = new NimatorResult(DateTime.Now);
+            List<ICheckResult> checkResults = new List<ICheckResult>();
+            checkResults.Add(new CheckResult("BasicLogin", NotificationLevel.Okay));
+            result.LayerResults.Add(new LayerResult(layerName: "Infrastructure", checkResults: checkResults));
+
+            var sut = GetSut();
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Metrics.Count.ShouldBe(2);
+            sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith("check.BasicLogin.isHealthy"));
+        }
+
+        [Test]
+        [TestCase(NotificationLevel.Okay, "0")]
+        [TestCase(NotificationLevel.Warning, "1")]
+        [TestCase(NotificationLevel.Error,"2" )]
+        [TestCase(NotificationLevel.Critical, "3")]
+        public void MetricResult_ShouldBeExpectedValue_WhenCheckHasNotificationLevelOf_(
+            NotificationLevel notificationLevel, string expectedValue)
+        {
+            var result = new NimatorResult(DateTime.Now);
+            List<ICheckResult> checkResults = new List<ICheckResult>();
+            checkResults.Add(new CheckResult("BasicLogin", notificationLevel));
+            result.LayerResults.Add(new LayerResult(layerName: "Infrastructure", checkResults: checkResults));
+
+            var sut = GetSut();
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Metrics.Count.ShouldBe(2);
+            sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".result") &&
+                                                metric.Value.Equals(expectedValue));
+        }
+
+        [Test]
+        public void MetricResult_ShouldHaveCorrectlyFormattedStatName()
+        {
+            var result = new NimatorResult(DateTime.Now);
+            List<ICheckResult> checkResults = new List<ICheckResult>();
+            checkResults.Add(new CheckResult("BasicLogin", NotificationLevel.Okay));
+            result.LayerResults.Add(new LayerResult(layerName: "Infrastructure", checkResults: checkResults));
+
+            var sut = GetSut();
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Metrics.Count.ShouldBe(2);
+            sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith("check.BasicLogin.result"));
+        }
+
+        [Test]
+        [TestCase(NotificationLevel.Warning)]
+        [TestCase(NotificationLevel.Critical)]
+        [TestCase(NotificationLevel.Error)]
+        public void WhenCheckHasNotificationLevelNotOkay_MetricIsHealthy_ShouldBeFalse(NotificationLevel notificationLevel)
+        {
+            var result = new NimatorResult(DateTime.Now);
+            List<ICheckResult> checkResults = new List<ICheckResult>();
+            checkResults.Add(new CheckResult("BasicLogin", notificationLevel));
+            result.LayerResults.Add(new LayerResult(layerName: "Infrastructure", checkResults: checkResults));
+
+            var sut = GetSut();
+
+            // Act
+            sut.Notify(result);
+
+            // Assert
+            sut.Metrics.Count.ShouldBe(2);
+            sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".isHealthy") &&
+                                                metric.Value.Equals("0"));
+        }
+
         private DataDogNotifierTestDouble GetSut()
         {
             return GetSut(settings);
@@ -175,6 +298,15 @@ namespace Nimator.Notifiers.DataDog
 
         private class DataDogNotifierTestDouble : DataDogNotifier
         {
+            public class DataDogMetric
+            {
+                public string StatName { get; set; }
+                public string Value { get; set; }
+                public string[] Tags { get; set; }
+            }
+
+            public List<DataDogMetric> Metrics = new List<DataDogMetric>();
+
             public List<DataDogEvent> Events = new List<DataDogEvent>();
 
             public DataDogNotifierTestDouble(IDataDogEventConverter dataDogEventConverter, DataDogSettings settings) : base(dataDogEventConverter, settings)
@@ -184,6 +316,16 @@ namespace Nimator.Notifiers.DataDog
             protected override void NotifyDataDogEvent(DataDogEvent dataDogEvent)
             {
                 Events.Add(dataDogEvent);
+            }
+
+            protected override void NotifyDataDogGauge(string statName, string value, string[] tags)
+            {
+                Metrics.Add(new DataDogMetric()
+                {
+                    StatName = statName,
+                    Value = value,
+                    Tags = tags
+                });
             }
         }
     }

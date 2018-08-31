@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Nimator.Settings;
 using StatsdClient;
@@ -31,12 +32,64 @@ namespace Nimator.Notifiers.DataDog
                 }
             }
 
-            NotifyDataDogHealthMetrics(result);
+            SendDataDogHealthMetrics(result);
         }
 
-        private void NotifyDataDogHealthMetrics(INimatorResult result)
+        private void SendDataDogHealthMetrics(INimatorResult nimatorResult)
         {
-            // TODO NJ: Implementation
+            
+            foreach (var resultLayerResult in nimatorResult.LayerResults)
+            {
+                foreach (var checkResult in resultLayerResult.CheckResults)
+                {
+                    string[] tags = new string[]
+                    {
+                        $"layer:{resultLayerResult.LayerName}",
+                        $"level:{checkResult.Level.ToString()}"
+                    };
+
+                    SendCheckResultToDataDog(checkResult, tags);
+                    SendIsHealthyToDataDog(checkResult, tags);
+                }
+            }            
+        }
+
+        private void SendIsHealthyToDataDog(ICheckResult checkResult, string[] tags)
+        {
+            var checkResultCheckName = checkResult.CheckName;
+
+            string isHealthyStateName = $"check.{checkResultCheckName}.isHealthy";
+            int isHealthyValue = Convert.ToInt32(checkResult.Level == NotificationLevel.Okay);
+            NotifyDataDogGauge(isHealthyStateName, isHealthyValue.ToString(), tags);
+        }
+
+        private void SendCheckResultToDataDog(ICheckResult checkResult, string[] tags)
+        {
+            string resultStatName = $"check.{checkResult.CheckName}.result";
+            int resultValue = TranslateLevel(checkResult.Level);
+            NotifyDataDogGauge(resultStatName, resultValue.ToString(), tags);
+        }
+
+        private int TranslateLevel(NotificationLevel checkResultLevel)
+        {
+            switch (checkResultLevel)
+            {
+                case NotificationLevel.Okay:
+                    return 0;
+                case NotificationLevel.Warning:
+                    return 1;
+                case NotificationLevel.Error:
+                    return 2;
+                case NotificationLevel.Critical:
+                    return 3;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        protected virtual void NotifyDataDogGauge(string statName, string value, string[] tags)
+        {
+            DogStatsd.Gauge(statName: statName, value: value, tags: tags);
         }
 
         protected virtual void NotifyDataDogEvent(DataDogEvent dataDogEvent)
@@ -47,5 +100,5 @@ namespace Nimator.Notifiers.DataDog
                 alertType: dataDogEvent.AlertType,
                 tags: dataDogEvent.Tags);
         }
-    }
+    }    
 }
