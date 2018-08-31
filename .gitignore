@@ -63,3 +63,5 @@ UpgradeLog*.htm
 # Folder where NuGet package will be constructed
 nuget-package/
 /src/.nuget
+_NCrunch_*
+*.orig
