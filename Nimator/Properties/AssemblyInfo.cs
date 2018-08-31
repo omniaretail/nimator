@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly:InternalsVisibleTo("Nimator.Tests")]
+[assembly: InternalsVisibleTo("Nimator.Notifiers.Integration.Tests")]
 
 [assembly: AssemblyTitle("Nimator")]
 [assembly: AssemblyDescription("Light-weight, ad-hoc library to create monitoring applications with custom checks written in c-sharp.")]
