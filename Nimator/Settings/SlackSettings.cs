@@ -17,6 +17,12 @@ namespace Nimator.Settings
         /// </summary>
         public int DebounceTimeInSecs { get; set; }
 
+        /// <summary>
+        /// Source environment to show in slack message.
+        /// Optional - use when you have one channel for several environments.
+        /// </summary>
+        public string SourceEnvironment { get; set; }
+
         /// <inheritDoc/>
         public override INotifier ToNotifier()
         {
@@ -32,7 +38,7 @@ namespace Nimator.Settings
             {
                 Url = "https://hooks.slack.com/services/your/integrationUrl/here",
                 DebounceTimeInSecs = 3600,
-                Threshold = NotificationLevel.Error,
+                Threshold = NotificationLevel.Error
             };
         }
     }

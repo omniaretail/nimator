@@ -1,21 +1,29 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Nimator.Notifiers
 {
     internal class SlackMessage
     {
-        public SlackMessage(INimatorResult result, NotificationLevel minLevelForDetails)
+        public const string ENV_PREFIX = "Environment: ";
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("attachments")]
+        public SlackMessageAttachment[] SlackMessageAttachments { get; set; }
+
+        public SlackMessage(INimatorResult result, NotificationLevel minLevelForDetails, string sourceEnvironment)
         {
             // Because "text" will be shown (a) full-width and (b) full height without
             // a 'Show More...' link, we prefer that to use for the full description.
             // The "attachments" will then be a simpler things, drawing attention with
             // specific coloring and icons.
 
-            Text = result.Message
-                + ":\n```" 
-                + result.RenderPlainText(minLevelForDetails) 
-                + "```";
+            Text = GetEnvironmentMessage(sourceEnvironment)
+                   + result.Message
+                   + $":\n```{result.RenderPlainText(minLevelForDetails)}```";
 
             SlackMessageAttachments = new[] 
             {
@@ -39,11 +47,10 @@ namespace Nimator.Notifiers
             }).ToArray();
         }
 
-        [JsonProperty("text")]
-        public string Text { get; set; }
-
-        [JsonProperty("attachments")]
-        public SlackMessageAttachment[] SlackMessageAttachments { get; set; }
+        private string GetEnvironmentMessage(string sourceEnvironment)
+            => string.IsNullOrWhiteSpace(sourceEnvironment)
+                ? string.Empty
+                : $"{ENV_PREFIX}{sourceEnvironment}.{Environment.NewLine}";
 
         private static string CallToActionForLevel(NotificationLevel level)
         {
