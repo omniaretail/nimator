@@ -26,7 +26,7 @@ namespace Nimator.Notifiers
 
             if (result.Level >= settings.Threshold)
             {
-                var message = new SlackMessage(result, settings.Threshold);
+                var message = new SlackMessage(result, settings.Threshold, settings.SourceEnvironment);
                 
                 if (settings.DebounceTimeInSecs > 0){
                     dontAlertBefore = DateTime.Now.AddSeconds(settings.DebounceTimeInSecs);
