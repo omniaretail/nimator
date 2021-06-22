@@ -178,7 +178,7 @@ namespace Nimator.Notifiers.DataDog
             // Assert
             sut.Metrics.Count.ShouldBe(2);
             sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".isHealthy") &&
-                                               metric.Value.Equals("1"));
+                                               metric.Value.Equals(1));
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace Nimator.Notifiers.DataDog
             // Assert
             sut.Metrics.Count.ShouldBe(2);
             sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".isHealthy") &&
-                                                metric.Value.Equals("0"));
+                                                metric.Value.Equals(0));
         }
 
         [Test]
@@ -222,12 +222,12 @@ namespace Nimator.Notifiers.DataDog
         }
 
         [Test]
-        [TestCase(NotificationLevel.Okay, "0")]
-        [TestCase(NotificationLevel.Warning, "1")]
-        [TestCase(NotificationLevel.Error,"2" )]
-        [TestCase(NotificationLevel.Critical, "3")]
+        [TestCase(NotificationLevel.Okay, 0)]
+        [TestCase(NotificationLevel.Warning, 1)]
+        [TestCase(NotificationLevel.Error,2 )]
+        [TestCase(NotificationLevel.Critical, 3)]
         public void MetricResult_ShouldBeExpectedValue_WhenCheckHasNotificationLevelOf_(
-            NotificationLevel notificationLevel, string expectedValue)
+            NotificationLevel notificationLevel, int expectedValue)
         {
             var result = new NimatorResult(DateTime.Now);
             List<ICheckResult> checkResults = new List<ICheckResult>();
@@ -282,7 +282,7 @@ namespace Nimator.Notifiers.DataDog
             // Assert
             sut.Metrics.Count.ShouldBe(2);
             sut.Metrics.ShouldContain(metric => metric.StatName.EndsWith(".isHealthy") &&
-                                                metric.Value.Equals("0"));
+                                                metric.Value.Equals(0));
         }
 
         private DataDogNotifierTestDouble GetSut()
@@ -301,7 +301,7 @@ namespace Nimator.Notifiers.DataDog
             public class DataDogMetric
             {
                 public string StatName { get; set; }
-                public string Value { get; set; }
+                public int Value { get; set; }
                 public string[] Tags { get; set; }
             }
 
@@ -318,7 +318,7 @@ namespace Nimator.Notifiers.DataDog
                 Events.Add(dataDogEvent);
             }
 
-            protected override void NotifyDataDogGauge(string statName, string value, string[] tags)
+            protected override void NotifyDataDogGauge(string statName, int value, string[] tags)
             {
                 Metrics.Add(new DataDogMetric()
                 {
