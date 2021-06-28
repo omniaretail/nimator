@@ -60,14 +60,14 @@ namespace Nimator.Notifiers.DataDog
 
             string isHealthyStateName = $"check.{checkResultCheckName}.isHealthy";
             int isHealthyValue = Convert.ToInt32(checkResult.Level == NotificationLevel.Okay);
-            NotifyDataDogGauge(isHealthyStateName, isHealthyValue.ToString(), tags);
+            NotifyDataDogGauge(isHealthyStateName, isHealthyValue, tags);
         }
 
         private void SendCheckResultToDataDog(ICheckResult checkResult, string[] tags)
         {
             string resultStatName = $"check.{checkResult.CheckName}.result";
             int resultValue = TranslateLevel(checkResult.Level);
-            NotifyDataDogGauge(resultStatName, resultValue.ToString(), tags);
+            NotifyDataDogGauge(resultStatName, resultValue, tags);
         }
 
         private int TranslateLevel(NotificationLevel checkResultLevel)
@@ -87,7 +87,7 @@ namespace Nimator.Notifiers.DataDog
             }
         }
 
-        protected virtual void NotifyDataDogGauge(string statName, string value, string[] tags)
+        protected virtual void NotifyDataDogGauge(string statName, int value, string[] tags)
         {
             DogStatsd.Gauge(statName: statName, value: value, tags: tags);
         }
